@@ -13,13 +13,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search"
 import type { SearchParams } from "@/entities/articles/model/types"
 
-const LANGUAGES: { code: string; name: string }[] = [
-	{ code: "ru", name: "russian" },
-	{ code: "en", name: "english" },
-	{ code: "de", name: "deutsch" },
-	{ code: "fr", name: "french" },
-	{ code: "es", name: "spanish" },
-]
+const LANGUAGES = ["russian", "english", "deutsch", "french", "spanish"]
 
 interface SearchFormProps {
 	onSearch: (params: SearchParams) => void
@@ -32,7 +26,7 @@ export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 			title: "",
 			description: "",
 			abstract_description: "",
-			language: "ru",
+			language: "russian",
 		},
 	})
 
@@ -68,9 +62,9 @@ export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 						<FormControl size="small" fullWidth>
 							<InputLabel>Language</InputLabel>
 							<Select {...field} label="Language">
-								{LANGUAGES.map(({ code, name }) => (
-									<MenuItem key={code} value={code}>
-										{name}
+								{LANGUAGES.map((lang) => (
+									<MenuItem key={lang} value={lang}>
+										{lang}
 									</MenuItem>
 								))}
 							</Select>
