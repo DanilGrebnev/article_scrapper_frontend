@@ -1,25 +1,47 @@
 .form {
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
-	max-width: 800px;
-}
-
-.columns {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
 	gap: 32px;
-	align-items: start;
+	max-width: 640px;
+	margin: 0 auto;
 }
 
 .sectionTitle {
-	font-size: 0.875rem;
+	font-size: 1rem;
 	font-weight: 600;
-	margin-bottom: 12px;
+	margin-bottom: 14px;
 }
 
 .fields {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 20px;
+
+	input,
+	textarea,
+	select,
+	button[role="combobox"] {
+		font-size: 0.9375rem;
+		padding: 10px 12px;
+	}
+
+	label {
+		font-size: 0.9375rem;
+	}
+}
+
+.submitRow {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.pollProcess {
+	font-size: 0.875rem;
+	color: #666;
+}
+
+.pollError {
+	font-size: 0.875rem;
+	color: #e53e3e;
 }

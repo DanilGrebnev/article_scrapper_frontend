@@ -34,10 +34,27 @@ export interface SearchResponse {
 	high_match: MatchedArticle[]
 	medium_match: MatchedArticle[]
 	low_match: MatchedArticle[]
+	filters: SearchParams
 }
 
 export interface ArticleSearchStartResponse {
-	id: string
+	request_id: string
+	status: string
+}
+
+export interface HistoryAmountArticles {
+	high_match: number
+	medium_match: number
+	low_match: number
+}
+
+export interface HistoryListItem {
+	id: number
+	target_theme: string
+	field_knowledge: string
+	dateFrom: number
+	dateTo: number
+	amount_articles: HistoryAmountArticles
 }
 
 export type CheckSearchResponse =

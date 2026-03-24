@@ -1,31 +1,22 @@
-import { Tabs } from "@heroui/react"
 import { useLocation, useNavigate } from "react-router-dom"
+import { TabsField } from "@/shared/ui/TabsField"
 
 const tabs = [
-	{ id: "/", label: "Поиск статей" },
-	{ id: "/history", label: "История поиска" },
-	{ id: "/ai-test", label: "Тест" },
-]
+	{ key: "/", value: "Поиск статей" },
+	{ key: "/history", value: "История поиска" },
+	{ key: "/ai-test", value: "Тест" },
+] as const
 
 export function NavTabs() {
 	const { pathname } = useLocation()
 	const navigate = useNavigate()
 
 	return (
-		<Tabs
-			selectedKey={pathname}
-			onSelectionChange={(key) => navigate(String(key))}
-		>
-			<Tabs.ListContainer>
-				<Tabs.List aria-label="Навигация">
-					{tabs.map((tab) => (
-						<Tabs.Tab key={tab.id} id={tab.id}>
-							{tab.label}
-							<Tabs.Indicator />
-						</Tabs.Tab>
-					))}
-				</Tabs.List>
-			</Tabs.ListContainer>
-		</Tabs>
+		<TabsField
+			items={tabs}
+			selectedKey={pathname as (typeof tabs)[number]["key"]}
+			onSelectionChange={(key) => navigate(key)}
+			ariaLabel="Навигация"
+		/>
 	)
 }

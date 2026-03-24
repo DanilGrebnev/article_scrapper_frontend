@@ -10,7 +10,7 @@ const POLL_INTERVAL_MS = 3000
 
 /**
  * Запускает поиск статей на бэкенде.
- * POST api/article-search — возвращает id запущенной задачи.
+ * POST api/article-search — ответ: { request_id, status }.
  */
 export function startArticleSearch(
 	params: SearchParams,
@@ -22,11 +22,13 @@ export function startArticleSearch(
 
 /**
  * Один запрос проверки статуса задачи.
- * POST api/check-search — возвращает status (process | error | success).
+ * POST api/check-search — тело `{ request_id }`, ответ: status (process | error | success).
  */
-export function fetchCheckSearch(id: string): Promise<CheckSearchResponse> {
+export function fetchCheckSearch(
+	request_id: string,
+): Promise<CheckSearchResponse> {
 	return apiClientSecure
-		.post("check-search", { json: { id } })
+		.post("check-search", { json: { request_id } })
 		.json<CheckSearchResponse>()
 }
 
@@ -50,14 +52,15 @@ export function delay(ms: number, signal?: AbortSignal): Promise<void> {
 export interface CheckSearchStatusOptions {
 	signal?: AbortSignal
 	intervalMs?: number
-	onProcess?: (message: string) => void
+	/** Вызывается на каждый распарсенный ответ check-search (до ветвления по status). */
+	onResponse?: (response: CheckSearchResponse) => void
 }
 
 /**
  * Polling-цикл: опрашивает check-search с интервалом до получения
- * финального статуса (success → результат, error → throw).
- * При сетевых сбоях автоматически повторяет запрос.
- * Поддерживает AbortSignal для отмены и колбэк onProcess для прогресса.
+ * финального статуса (success — результат, error — throw).
+ * При сетевых ошибках останавливает polling и пробрасывает исключение.
+ * Поддерживает AbortSignal для отмены и колбэк onResponse для каждого ответа.
  */
 export async function checkSearchStatus(
 	id: string,
@@ -77,9 +80,12 @@ export async function checkSearchStatus(
 		} catch (err) {
 			if (err instanceof DOMException && err.name === "AbortError")
 				throw err
-			await delay(interval, signal)
-			continue
+			throw err instanceof Error
+				? err
+				: new Error("Ошибка при проверке статуса поиска")
 		}
+
+		options?.onResponse?.(response)
 
 		switch (response.status) {
 			case "success":
@@ -89,7 +95,6 @@ export async function checkSearchStatus(
 				throw new Error(response.message)
 
 			case "process":
-				options?.onProcess?.(response.message)
 				await delay(interval, signal)
 				break
 		}

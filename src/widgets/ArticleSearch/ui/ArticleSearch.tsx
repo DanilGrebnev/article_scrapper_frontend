@@ -2,25 +2,38 @@ import { AnimatePresence, motion } from "motion/react"
 import {
 	SearchForm,
 	SearchResults,
-	useArticleSearchJob,
+	useStartSearch,
+	useCheckResult,
+	useBootstrapSearch,
+	useArticleSearchResult,
 } from "@/entities/articles"
 import styles from "./ArticleSearch.module.scss"
 
 export function ArticleSearch() {
-	const { startSearch, isBusy, data, error, statusMessage } =
-		useArticleSearchJob()
+	const { start, isPending: isStarting, error: startError } = useStartSearch()
+	const { poll, isPolling, data: pollStatus } = useCheckResult()
+
+	const data = useArticleSearchResult()
+
+	useBootstrapSearch(poll)
+
+	const handleSearch = async (params: Parameters<typeof start>[0]) => {
+		const id = await start(params)
+		if (!id) return
+		poll(id)
+	}
+
+	const isBusy = isStarting || isPolling
 
 	return (
 		<div className={styles.wrapper}>
-			<SearchForm onSearch={startSearch} isPending={isBusy} />
+			<SearchForm
+				onSearch={handleSearch}
+				isPending={isBusy}
+				pollStatus={pollStatus}
+			/>
 
-			{error && (
-				<p className={styles.error}>{error}</p>
-			)}
-
-			{isBusy && statusMessage && (
-				<p className={styles.status}>{statusMessage}</p>
-			)}
+			{startError && <p className={styles.error}>{startError}</p>}
 
 			<AnimatePresence>
 				{data && (

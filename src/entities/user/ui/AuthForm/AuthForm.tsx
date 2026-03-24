@@ -1,5 +1,6 @@
-import { useForm } from "react-hook-form"
-import { Button, Input, Label, Spinner, TextField } from "@heroui/react"
+import { useForm, Controller } from "react-hook-form"
+import { Button, Spinner } from "@heroui/react"
+import { InputField } from "@/shared/ui/InputField"
 import type { AuthParams } from "../../model/types"
 import styles from "./AuthForm.module.scss"
 
@@ -9,10 +10,11 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ onSubmit, isPending }: AuthFormProps) {
-	const { register, handleSubmit } = useForm<AuthParams>({
+	const { control, handleSubmit } = useForm<AuthParams>({
+		// TODO: убрать мок-данные
 		defaultValues: {
-			login: "",
-			password: "",
+			login: "danil_grebnev",
+			password: "htczte2101",
 		},
 	})
 
@@ -20,24 +22,31 @@ export function AuthForm({ onSubmit, isPending }: AuthFormProps) {
 		<form onSubmit={handleSubmit(onSubmit)} noValidate>
 			<h1 className={styles.title}>Авторизация</h1>
 			<div className={styles.fields}>
-				<TextField isRequired>
-					<Label>Email или имя пользователя</Label>
-					<Input
-						type="text"
-						{...register("login", { required: true })}
-					/>
-				</TextField>
-				<TextField isRequired>
-					<Label>Пароль</Label>
-					<Input
-						type="password"
-						{...register("password", { required: true })}
-					/>
-				</TextField>
+				<Controller
+					name="login"
+					control={control}
+					rules={{ required: true }}
+					render={({ field }) => (
+						<InputField
+							label="Email или имя пользователя"
+							type="text"
+							{...field}
+						/>
+					)}
+				/>
+				<Controller
+					name="password"
+					control={control}
+					rules={{ required: true }}
+					render={({ field }) => (
+						<InputField label="Пароль" type="password" {...field} />
+					)}
+				/>
 				<Button
 					type="submit"
 					variant="primary"
 					isDisabled={isPending}
+					className={styles.submitButton}
 				>
 					{isPending && <Spinner size="sm" />}
 					Войти

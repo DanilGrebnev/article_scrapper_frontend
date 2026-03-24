@@ -1,0 +1,41 @@
+.wrapper {
+	margin-bottom: 24px;
+}
+
+.title {
+	font-size: 0.875rem;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	min-width: 0;
+}
+
+.longParam {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin-top: 10px;
+	padding: 6px 10px;
+	border: 1px solid #d4d4d8;
+	border-radius: 8px;
+	font-size: 0.8125rem;
+}
+
+.longLabel {
+	font-weight: 600;
+	color: #555;
+	flex-shrink: 0;
+}
+
+.longValue {
+	white-space: normal;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	color: #333;
+}

@@ -1,0 +1,69 @@
+@keyframes shimmer {
+	0% {
+		background-position: -400px 0;
+	}
+	100% {
+		background-position: 400px 0;
+	}
+}
+
+@mixin bone {
+	background: linear-gradient(90deg, #eee 25%, #e0e0e0 37%, #eee 63%);
+	background-size: 800px 100%;
+	animation: shimmer 1.4s ease infinite;
+	border-radius: 6px;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+	padding: 16px;
+	border: 1px solid #e0e0e0;
+	border-radius: 12px;
+	background: #fff;
+}
+
+.header {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+}
+
+.theme {
+	@include bone;
+	height: 16px;
+	flex: 1;
+}
+
+.field {
+	@include bone;
+	height: 14px;
+	width: 90px;
+}
+
+.meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.dates {
+	@include bone;
+	height: 14px;
+	width: 100px;
+}
+
+.counts {
+	display: flex;
+	gap: 6px;
+}
+
+.chip {
+	@include bone;
+	height: 22px;
+	width: 32px;
+	border-radius: 999px;
+}

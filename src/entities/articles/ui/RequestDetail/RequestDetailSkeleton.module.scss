@@ -1,0 +1,139 @@
+@keyframes shimmer {
+	0% {
+		background-position: -400px 0;
+	}
+	100% {
+		background-position: 400px 0;
+	}
+}
+
+@mixin bone {
+	background: linear-gradient(90deg, #eee 25%, #e0e0e0 37%, #eee 63%);
+	background-size: 800px 100%;
+	animation: shimmer 1.4s ease infinite;
+	border-radius: 6px;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+/* ---------- SearchParamsDisplay skeleton ---------- */
+.paramsBlock {
+	margin-bottom: 24px;
+}
+
+.paramsTitle {
+	@include bone;
+	height: 14px;
+	width: 140px;
+	margin-bottom: 8px;
+}
+
+.paramsChips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.paramChip {
+	@include bone;
+	height: 24px;
+	border-radius: 999px;
+}
+
+/* ---------- ArticleFilterInput skeleton ---------- */
+.filterInput {
+	@include bone;
+	height: 40px;
+	max-width: 420px;
+	border-radius: 12px;
+}
+
+/* ---------- Sections ---------- */
+.sections {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+/* ---------- MatchSectionHeader skeleton ---------- */
+.divider {
+	border: none;
+	border-top: 1px solid #e0e0e0;
+	margin-bottom: 16px;
+}
+
+.sectionHeaderRow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.sectionLabel {
+	@include bone;
+	height: 20px;
+	width: 180px;
+}
+
+.sectionCount {
+	@include bone;
+	height: 22px;
+	width: 32px;
+	border-radius: 999px;
+}
+
+/* ---------- ArticleCard skeleton ---------- */
+.cardList {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.card {
+	border: 1px solid #e0e0e0;
+	border-radius: 12px;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.cardId {
+	@include bone;
+	height: 12px;
+	width: 60px;
+}
+
+.cardTitle {
+	@include bone;
+	height: 16px;
+	width: 70%;
+}
+
+.cardAbstract1 {
+	@include bone;
+	height: 14px;
+	width: 100%;
+}
+
+.cardAbstract2 {
+	@include bone;
+	height: 14px;
+	width: 85%;
+}
+
+.cardAuthors {
+	@include bone;
+	height: 14px;
+	width: 40%;
+}
+
+.cardLink {
+	@include bone;
+	height: 14px;
+	width: 110px;
+}

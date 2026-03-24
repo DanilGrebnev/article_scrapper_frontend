@@ -1,6 +1,7 @@
 import { Input, Label, TextField } from "@heroui/react"
 import { useController, type Control, type UseFormGetValues, type UseFormTrigger } from "react-hook-form"
 import type { SearchParams } from "@/entities/articles/model/types"
+import { SEARCH_PARAM_LABELS } from "../../../lib/searchParamLabels"
 import styles from "./DateRangeFields.module.scss"
 
 interface DateRangeFieldsProps {
@@ -59,7 +60,7 @@ export function DateRangeFields({ control, trigger, getValues }: DateRangeFields
 		<div className={styles.wrapper}>
 			<div className={styles.row}>
 				<TextField isInvalid={!!fromState.error}>
-					<Label>Год от</Label>
+					<Label>{SEARCH_PARAM_LABELS.dateFrom}</Label>
 					<Input
 						type="number"
 						placeholder="2024"
@@ -78,7 +79,7 @@ export function DateRangeFields({ control, trigger, getValues }: DateRangeFields
 					/>
 				</TextField>
 				<TextField isInvalid={!!toState.error}>
-					<Label>Год до</Label>
+					<Label>{SEARCH_PARAM_LABELS.dateTo}</Label>
 					<Input
 						type="number"
 						placeholder="2025"

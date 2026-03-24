@@ -1,10 +1,11 @@
 import { ArticleCard } from "./ArticleCard/ArticleCard"
 import { MatchSectionHeader } from "./MatchSectionHeader/MatchSectionHeader"
 import { RenderArticleList } from "./RenderArticleList/RenderArticleList"
-import { SearchParamsDisplay } from "./SearchParamsDisplay/SearchParamsDisplay"
+import { SearchParamsDisplay } from "@/shared/ui/SearchParamsDisplay"
 import { ArticleFilterInput } from "./ArticleFilterInput/ArticleFilterInput"
 import { useArticleFilter } from "../../model/hooks/useArticleFilter"
-import type { SearchParams, SearchResponse } from "../../model/types"
+import { SEARCH_PARAM_LABELS, SEARCH_PARAM_ORDER } from "../../lib/searchParamLabels"
+import type { SearchResponse } from "../../model/types"
 import styles from "./RequestDetail.module.scss"
 
 const MATCH_SECTIONS = [
@@ -30,21 +31,28 @@ const MATCH_SECTIONS = [
 
 interface RequestDetailProps {
 	response: SearchResponse
-	variables?: SearchParams
 }
 
 /**
  * Отвечает за показ детализации запроса.
- * Рендерит параметры запроса, три блока по степени совпадения
+ * Рендерит параметры запроса (из response.filters), три блока по степени совпадения
  * (высокое, среднее, низкое) и карточки статей в каждом блоке.
  */
-export function RequestDetail({ response, variables }: RequestDetailProps) {
+export function RequestDetail({ response }: RequestDetailProps) {
 	const { query, setQuery, filtered } = useArticleFilter(response)
 
 	return (
 		<div className={styles.wrapper}>
-			{variables && <SearchParamsDisplay data={variables} />}
+			{response.filters && (
+				<SearchParamsDisplay
+					data={response.filters}
+					labels={SEARCH_PARAM_LABELS}
+					fieldOrder={SEARCH_PARAM_ORDER}
+				/>
+			)}
+			
 			<ArticleFilterInput value={query} onChange={setQuery} />
+
 			<div className={styles.sections}>
 				{MATCH_SECTIONS.map(({ key, label, color, bg }) => {
 					const articles = filtered[key] ?? []

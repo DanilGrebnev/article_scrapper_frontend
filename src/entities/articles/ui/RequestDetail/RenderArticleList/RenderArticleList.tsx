@@ -1,5 +1,4 @@
 import { type ReactNode } from "react"
-import { Virtuoso } from "react-virtuoso"
 import type { MatchedArticle } from "../../../model/types"
 import styles from "./RenderArticleList.module.scss"
 
@@ -14,13 +13,12 @@ export function RenderArticleList({ articles, children }: RenderArticleListProps
 	}
 
 	return (
-		<Virtuoso
-			data={articles}
-			useWindowScroll
-			itemContent={(_, article) => (
-				<div className={styles.item}>{children(article)}</div>
-			)}
-			increaseViewportBy={400}
-		/>
+		<div className={styles.list}>
+			{articles.map((article) => (
+				<div key={article.id} className={styles.item}>
+					{children(article)}
+				</div>
+			))}
+		</div>
 	)
 }

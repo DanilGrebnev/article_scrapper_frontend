@@ -1,13 +1,7 @@
 import { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import {
-	Button,
-	FieldError,
-	Input,
-	Label,
-	Spinner,
-	TextField,
-} from "@heroui/react"
+import { useForm, Controller } from "react-hook-form"
+import { Button, Spinner } from "@heroui/react"
+import { InputField } from "@/shared/ui/InputField"
 import type { RegisterParams, RegisterFormValues } from "../../model/types"
 import styles from "./RegisterForm.module.scss"
 
@@ -18,20 +12,21 @@ interface RegisterFormProps {
 
 export function RegisterForm({ onSubmit, isPending }: RegisterFormProps) {
 	const {
-		register,
+		control,
 		handleSubmit,
 		watch,
 		trigger,
 		formState: { errors, dirtyFields },
 	} = useForm<RegisterFormValues>({
 		mode: "onChange",
+		// TODO: убрать мок-данные
 		defaultValues: {
-			name: "",
-			last_name: "",
-			username: "",
-			email: "",
-			password: "",
-			confirmPassword: "",
+			name: "Данил",
+			last_name: "Гребнев",
+			username: "danil_grebnev",
+			email: "grebnevdanil60@gmail.com",
+			password: "htczte2101",
+			confirmPassword: "htczte2101",
 		},
 	})
 
@@ -43,7 +38,10 @@ export function RegisterForm({ onSubmit, isPending }: RegisterFormProps) {
 		}
 	}, [password, trigger, dirtyFields.confirmPassword])
 
-	const submitHandler = ({ confirmPassword: _, ...params }: RegisterFormValues) => {
+	const submitHandler = ({
+		confirmPassword: _,
+		...params
+	}: RegisterFormValues) => {
 		onSubmit(params)
 	}
 
@@ -51,63 +49,77 @@ export function RegisterForm({ onSubmit, isPending }: RegisterFormProps) {
 		<form onSubmit={handleSubmit(submitHandler)} noValidate>
 			<h1 className={styles.title}>Регистрация</h1>
 			<div className={styles.fields}>
-				<TextField isRequired>
-					<Label>Имя</Label>
-					<Input {...register("name", { required: true })} />
-				</TextField>
-				<TextField isRequired>
-					<Label>Фамилия</Label>
-					<Input {...register("last_name", { required: true })} />
-				</TextField>
-				<TextField isRequired>
-					<Label>Имя пользователя</Label>
-					<Input {...register("username", { required: true })} />
-				</TextField>
-				<TextField isRequired>
-					<Label>Email</Label>
-					<Input
-						type="email"
-						{...register("email", { required: true })}
-					/>
-				</TextField>
-				<TextField
-					isRequired
-					isInvalid={!!errors.password}
-				>
-					<Label>Пароль</Label>
-					<Input
-						type="password"
-						{...register("password", {
-							required: true,
-							minLength: 6,
-						})}
-					/>
-					{errors.password?.type === "minLength" && (
-						<FieldError>Минимум 6 символов</FieldError>
+				<Controller
+					name="name"
+					control={control}
+					rules={{ required: true }}
+					render={({ field }) => (
+						<InputField label="Имя" {...field} />
 					)}
-				</TextField>
-				<TextField
-					isRequired
-					isInvalid={!!errors.confirmPassword}
-				>
-					<Label>Подтвердите пароль</Label>
-					<Input
-						type="password"
-						{...register("confirmPassword", {
-							required: true,
-							validate: (val) =>
-								val === watch("password") ||
-								"Пароли не совпадают",
-						})}
-					/>
-					{errors.confirmPassword?.message && (
-						<FieldError>{errors.confirmPassword.message}</FieldError>
+				/>
+				<Controller
+					name="last_name"
+					control={control}
+					rules={{ required: true }}
+					render={({ field }) => (
+						<InputField label="Фамилия" {...field} />
 					)}
-				</TextField>
+				/>
+				<Controller
+					name="username"
+					control={control}
+					rules={{ required: true }}
+					render={({ field }) => (
+						<InputField label="Имя пользователя" {...field} />
+					)}
+				/>
+				<Controller
+					name="email"
+					control={control}
+					rules={{ required: true }}
+					render={({ field }) => (
+						<InputField label="Email" type="email" {...field} />
+					)}
+				/>
+				<Controller
+					name="password"
+					control={control}
+					rules={{ required: true, minLength: 6 }}
+					render={({ field }) => (
+						<InputField
+							label="Пароль"
+							type="password"
+							error={
+								errors.password?.type === "minLength"
+									? "Минимум 6 символов"
+									: undefined
+							}
+							{...field}
+						/>
+					)}
+				/>
+				<Controller
+					name="confirmPassword"
+					control={control}
+					rules={{
+						required: true,
+						validate: (val) =>
+							val === watch("password") || "Пароли не совпадают",
+					}}
+					render={({ field }) => (
+						<InputField
+							label="Подтвердите пароль"
+							type="password"
+							error={errors.confirmPassword?.message}
+							{...field}
+						/>
+					)}
+				/>
 				<Button
 					type="submit"
 					variant="primary"
 					isDisabled={isPending}
+					className={styles.submitButton}
 				>
 					{isPending && <Spinner size="sm" />}
 					Зарегистрироваться

@@ -1,0 +1,57 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+	padding: 16px;
+	border: 1px solid #e0e0e0;
+	border-radius: 12px;
+	background: #fff;
+	cursor: pointer;
+	text-align: left;
+	transition: border-color 0.15s, box-shadow 0.15s;
+
+	&:hover {
+		border-color: #999;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	}
+}
+
+.header {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+}
+
+.theme {
+	font-weight: 600;
+	font-size: 0.9375rem;
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.field {
+	font-size: 0.8125rem;
+	color: #666;
+	flex-shrink: 0;
+}
+
+.meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.dates {
+	font-size: 0.8125rem;
+	color: #888;
+}
+
+.counts {
+	display: flex;
+	gap: 6px;
+}
