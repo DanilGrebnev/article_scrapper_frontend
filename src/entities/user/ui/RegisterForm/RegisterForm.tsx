@@ -1,6 +1,14 @@
 import { useForm } from "react-hook-form"
-import { Box, Button, CircularProgress, Stack, TextField, Typography } from "@mui/material"
+import {
+	Button,
+	FieldError,
+	Input,
+	Label,
+	Spinner,
+	TextField,
+} from "@heroui/react"
 import type { RegisterParams } from "../../model/types"
+import styles from "./RegisterForm.module.scss"
 
 interface RegisterFormProps {
 	onSubmit: (params: RegisterParams) => void
@@ -11,7 +19,12 @@ interface RegisterFormProps {
  * Форма регистрации: email, пароль и подтверждение пароля.
  */
 export function RegisterForm({ onSubmit, isPending }: RegisterFormProps) {
-	const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterParams>({
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<RegisterParams>({
 		defaultValues: {
 			email: "",
 			password: "",
@@ -20,52 +33,59 @@ export function RegisterForm({ onSubmit, isPending }: RegisterFormProps) {
 	})
 
 	return (
-		<Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-			<Typography variant="h5" component="h1" gutterBottom>
-				Регистрация
-			</Typography>
-			<Stack spacing={2}>
+		<form onSubmit={handleSubmit(onSubmit)} noValidate>
+			<h1 className={styles.title}>Регистрация</h1>
+			<div className={styles.fields}>
+				<TextField isRequired>
+					<Label>Email</Label>
+					<Input
+						type="email"
+						{...register("email", { required: true })}
+					/>
+				</TextField>
 				<TextField
-					label="Email"
-					type="email"
-					size="small"
-					fullWidth
-					required
-					{...register("email", { required: true })}
-				/>
+					isRequired
+					isInvalid={!!errors.password}
+				>
+					<Label>Пароль</Label>
+					<Input
+						type="password"
+						{...register("password", {
+							required: true,
+							minLength: 6,
+						})}
+					/>
+					{errors.password?.type === "minLength" && (
+						<FieldError>Минимум 6 символов</FieldError>
+					)}
+				</TextField>
 				<TextField
-					label="Пароль"
-					type="password"
-					size="small"
-					fullWidth
-					required
-					{...register("password", { required: true, minLength: 6 })}
-					error={!!errors.password}
-					helperText={errors.password?.type === "minLength" ? "Минимум 6 символов" : ""}
-				/>
-				<TextField
-					label="Подтвердите пароль"
-					type="password"
-					size="small"
-					fullWidth
-					required
-					{...register("confirmPassword", {
-						required: true,
-						validate: (val) => val === watch("password") || "Пароли не совпадают",
-					})}
-					error={!!errors.confirmPassword}
-					helperText={errors.confirmPassword?.message}
-				/>
+					isRequired
+					isInvalid={!!errors.confirmPassword}
+				>
+					<Label>Подтвердите пароль</Label>
+					<Input
+						type="password"
+						{...register("confirmPassword", {
+							required: true,
+							validate: (val) =>
+								val === watch("password") ||
+								"Пароли не совпадают",
+						})}
+					/>
+					{errors.confirmPassword?.message && (
+						<FieldError>{errors.confirmPassword.message}</FieldError>
+					)}
+				</TextField>
 				<Button
 					type="submit"
-					variant="contained"
-					size="small"
-					disabled={isPending}
-					startIcon={isPending ? <CircularProgress size={16} color="inherit" /> : null}
+					variant="primary"
+					isDisabled={isPending}
 				>
+					{isPending && <Spinner size="sm" />}
 					Зарегистрироваться
 				</Button>
-			</Stack>
-		</Box>
+			</div>
+		</form>
 	)
 }

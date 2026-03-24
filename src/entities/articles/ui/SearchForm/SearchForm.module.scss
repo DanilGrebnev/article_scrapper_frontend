@@ -1,0 +1,30 @@
+.sectionTitle {
+	font-size: 0.875rem;
+	font-weight: 600;
+	margin-bottom: 12px;
+}
+
+.fields {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.dateRow {
+	display: flex;
+	gap: 16px;
+}
+
+.dateRow > * {
+	flex: 1;
+}
+
+.accessLabel {
+	font-size: 0.875rem;
+}

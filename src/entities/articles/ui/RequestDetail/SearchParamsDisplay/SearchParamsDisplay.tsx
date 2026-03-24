@@ -1,5 +1,6 @@
-import { Box, Chip, Typography } from "@mui/material"
+import { Chip } from "@heroui/react"
 import type { SearchParams } from "../../../model/types"
+import styles from "./SearchParamsDisplay.module.scss"
 
 interface SearchParamsDisplayProps {
 	data: SearchParams
@@ -10,11 +11,9 @@ interface SearchParamsDisplayProps {
  */
 export function SearchParamsDisplay({ data }: SearchParamsDisplayProps) {
 	return (
-		<Box sx={{ mb: 3 }}>
-			<Typography variant="subtitle2" gutterBottom>
-				Параметры запроса
-			</Typography>
-			<Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+		<div className={styles.wrapper}>
+			<p className={styles.title}>Параметры запроса</p>
+			<div className={styles.chips}>
 				{Object.entries(data).map(([key, value]) => {
 					if (
 						value === undefined ||
@@ -23,15 +22,12 @@ export function SearchParamsDisplay({ data }: SearchParamsDisplayProps) {
 					)
 						return null
 					return (
-						<Chip
-							key={key}
-							label={`${key}: ${value}`}
-							size="small"
-							variant="outlined"
-						/>
+						<Chip key={key} size="sm" variant="bordered">
+							{key}: {String(value)}
+						</Chip>
 					)
 				})}
-			</Box>
-		</Box>
+			</div>
+		</div>
 	)
 }

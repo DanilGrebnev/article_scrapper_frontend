@@ -1,14 +1,12 @@
-import { Container, Typography } from "@mui/material"
+import styles from "./HistoryPage.module.scss"
 
 export function HistoryPage() {
 	return (
-		<Container sx={{ py: 4 }}>
-			<Typography variant="h5" component="h1" gutterBottom>
-				История поиска
-			</Typography>
-			<Typography color="text.secondary">
+		<div className={styles.page}>
+			<h1 className={styles.title}>История поиска</h1>
+			<p className={styles.subtitle}>
 				Здесь будет отображаться история поисковых запросов
-			</Typography>
-		</Container>
+			</p>
+		</div>
 	)
 }

@@ -1,10 +1,10 @@
-import { Container } from "@mui/material"
 import { ArticleSearch } from "@/widgets/ArticleSearch"
+import styles from "./SearchArticlesPage.module.scss"
 
 export function SearchArticlesPage() {
 	return (
-		<Container sx={{ py: 4 }}>
+		<div className={styles.page}>
 			<ArticleSearch />
-		</Container>
+		</div>
 	)
 }

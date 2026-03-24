@@ -1,23 +1,23 @@
 import { Controller, useForm } from "react-hook-form"
 import {
-	Box,
 	Button,
 	Checkbox,
-	CircularProgress,
-	FormControl,
-	FormControlLabel,
-	InputLabel,
-	MenuItem,
+	Input,
+	Label,
+	ListBox,
 	Select,
-	Stack,
+	Spinner,
+	TextArea,
 	TextField,
-	Typography,
-} from "@mui/material"
-import SearchIcon from "@mui/icons-material/Search"
+} from "@heroui/react"
+import { DateRangeFields } from "./DateRangeFields/DateRangeFields"
+
+import { Search } from "lucide-react"
 import type {
 	SearchDiscipline,
 	SearchParams,
 } from "@/entities/articles/model/types"
+import styles from "./SearchForm.module.scss"
 
 const LANGUAGES = ["russian", "english", "deutsch", "french", "spanish"]
 
@@ -34,152 +34,149 @@ interface SearchFormProps {
 export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 	const { register, handleSubmit, control } = useForm<SearchParams>({
 		defaultValues: {
-			targetTheme: "",
-			description: "",
+			target_theme: "",
+			field_knowledge: "",
+			target_context: "",
 			language: "russian",
 			discipline: "Metallurgy",
 			theme: "surface alloying of iron castings in a casting mold",
 			dateFrom: 2024,
 			dateTo: 2025,
-			isAccess: false,
+			openAccess: false,
 		},
 	})
 
 	return (
-		<Box component="form" onSubmit={handleSubmit(onSearch)} noValidate>
-			<Stack spacing={3}>
-				<Box>
-					<Typography variant="subtitle2" sx={{ mb: 1.5 }}>
-						Параметры фильтрации
-					</Typography>
-					<Stack spacing={2}>
+		<form onSubmit={handleSubmit(onSearch)} noValidate>
+			<div className={styles.section}>
+				<div>
+					<p className={styles.sectionTitle}>Параметры фильтрации</p>
+					<div className={styles.fields}>
 						<Controller
 							name="discipline"
 							control={control}
 							render={({ field }) => (
-								<FormControl size="small" fullWidth>
-									<InputLabel>Направление</InputLabel>
-									<Select {...field} label="Направление">
-										{DISCIPLINE_OPTIONS.map(
-											({ value, label }) => (
-												<MenuItem
-													key={value}
-													value={value}
-												>
-													{label}
-												</MenuItem>
-											),
-										)}
-									</Select>
-								</FormControl>
+								<Select
+									value={field.value}
+									onChange={(val) => {
+										if (val) field.onChange(val)
+									}}
+								>
+									<Label>Направление</Label>
+									<Select.Trigger>
+										<Select.Value />
+										<Select.Indicator />
+									</Select.Trigger>
+									<Select.Popover>
+										<ListBox>
+											{DISCIPLINE_OPTIONS.map(
+												({ value, label }) => (
+													<ListBox.Item
+														key={value}
+														id={value}
+													>
+														{label}
+													</ListBox.Item>
+												),
+											)}
+										</ListBox>
+									</Select.Popover>
+								</Select>
 							)}
 						/>
-						<TextField
-							label="Целевая тема"
-							placeholder="Тема по которой нужно искать"
-							size="small"
-							fullWidth
-							{...register("targetTheme")}
-						/>
-						<TextField
-							label="Раскрытие темы"
-							placeholder="Раскрытие темы"
-							size="small"
-							fullWidth
-							multiline
-							minRows={2}
-							{...register("description")}
-						/>
+						<TextField>
+							<Label>Целевая тема</Label>
+							<Input
+								placeholder="Тема по которой нужно искать"
+								{...register("target_theme")}
+							/>
+						</TextField>
+						<TextField>
+							<Label>Раскрытие темы</Label>
+							<TextArea
+								placeholder="Раскрытие темы"
+								rows={2}
+								{...register("field_knowledge")}
+							/>
+						</TextField>
+						<TextField>
+							<Label>Ключевые фразы и слова</Label>
+							<TextArea
+								placeholder="Ключевые слова и фразы помогающие лучше понять тему"
+								rows={2}
+								{...register("target_context")}
+							/>
+						</TextField>
 						<Controller
 							name="language"
 							control={control}
 							render={({ field }) => (
-								<FormControl size="small" fullWidth>
-									<InputLabel>Language</InputLabel>
-									<Select {...field} label="Language">
-										{LANGUAGES.map((lang) => (
-											<MenuItem key={lang} value={lang}>
-												{lang}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
+								<Select
+									value={field.value}
+									onChange={(val) => {
+										if (val) field.onChange(val)
+									}}
+								>
+									<Label>Language</Label>
+									<Select.Trigger>
+										<Select.Value />
+										<Select.Indicator />
+									</Select.Trigger>
+									<Select.Popover>
+										<ListBox>
+											{LANGUAGES.map((lang) => (
+												<ListBox.Item
+													key={lang}
+													id={lang}
+												>
+													{lang}
+												</ListBox.Item>
+											))}
+										</ListBox>
+									</Select.Popover>
+								</Select>
 							)}
 						/>
-					</Stack>
-				</Box>
+					</div>
+				</div>
 
-				<Box>
-					<Typography variant="subtitle2" sx={{ mb: 1.5 }}>
+				<div>
+					<p className={styles.sectionTitle}>
 						Параметры поиска статей
-					</Typography>
-					<Stack spacing={2}>
-						<TextField
-							label="Theme"
-							size="small"
-							fullWidth
-							{...register("theme")}
-						/>
-						<Stack direction="row" spacing={2}>
-							<TextField
-								label="Date From"
-								size="small"
-								fullWidth
-								type="number"
-								placeholder="2020"
-								slotProps={{
-									htmlInput: { min: 1000, max: 9999 },
-								}}
-								{...register("dateFrom", {
-									valueAsNumber: true,
-									min: 1000,
-									max: 9999,
-								})}
-							/>
-							<TextField
-								label="Date To"
-								size="small"
-								fullWidth
-								type="number"
-								placeholder="2025"
-								slotProps={{
-									htmlInput: { min: 1000, max: 9999 },
-								}}
-								{...register("dateTo", {
-									valueAsNumber: true,
-									min: 1000,
-									max: 9999,
-								})}
-							/>
-						</Stack>
-						<FormControlLabel
-							control={
+					</p>
+					<div className={styles.fields}>
+						<TextField>
+							<Label>Theme</Label>
+							<Input {...register("theme")} />
+						</TextField>
+						<DateRangeFields register={register} />
+						<Controller
+							name="openAccess"
+							control={control}
+							render={({ field }) => (
 								<Checkbox
-									size="small"
-									{...register("isAccess")}
-								/>
-							}
-							label="open access"
+									isSelected={field.value ?? false}
+									onChange={(isChecked) =>
+										field.onChange(isChecked)
+									}
+								>
+									<Checkbox.Control>
+										<Checkbox.Indicator />
+									</Checkbox.Control>
+									<Checkbox.Content>
+										<Label>Open access</Label>
+									</Checkbox.Content>
+								</Checkbox>
+							)}
 						/>
-					</Stack>
-				</Box>
+					</div>
+				</div>
 
-				<Button
-					type="submit"
-					variant="contained"
-					size="small"
-					startIcon={
-						isPending ? (
-							<CircularProgress size={16} color="inherit" />
-						) : (
-							<SearchIcon fontSize="small" />
-						)
-					}
-					disabled={isPending}
-				>
+				<Button type="submit" variant="primary" isDisabled={isPending}>
+					{isPending ? <Spinner size="sm" /> : <Search size={16} />}
 					Поиск
 				</Button>
-			</Stack>
-		</Box>
+			</div>
+		</form>
 	)
 }

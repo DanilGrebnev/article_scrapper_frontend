@@ -1,6 +1,6 @@
 import { Fragment, type ReactNode } from "react"
-import { Stack, Typography } from "@mui/material"
 import type { MatchedArticle } from "../../../model/types"
+import styles from "./RenderArticleList.module.scss"
 
 interface RenderArticleListProps {
 	articles: MatchedArticle[]
@@ -13,18 +13,14 @@ interface RenderArticleListProps {
  */
 export function RenderArticleList({ articles, children }: RenderArticleListProps) {
 	if (articles.length === 0) {
-		return (
-			<Typography variant="body2" color="text.secondary">
-				Нет результатов
-			</Typography>
-		)
+		return <p className={styles.empty}>Нет результатов</p>
 	}
 
 	return (
-		<Stack spacing={2}>
+		<div className={styles.list}>
 			{articles.map((article) => (
 				<Fragment key={article.id}>{children(article)}</Fragment>
 			))}
-		</Stack>
+		</div>
 	)
 }

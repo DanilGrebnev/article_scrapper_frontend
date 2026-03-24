@@ -1,10 +1,10 @@
-import { Container } from "@mui/material"
 import { ArticleSearch } from "@/widgets/ArticleSearch"
+import styles from "./HomePage.module.scss"
 
 export function HomePage() {
 	return (
-		<Container maxWidth={false} sx={{ py: 4 }}>
+		<div className={styles.page}>
 			<ArticleSearch />
-		</Container>
+		</div>
 	)
 }

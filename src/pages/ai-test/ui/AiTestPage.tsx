@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { Box, Button, Container, Typography, CircularProgress } from "@mui/material"
-import { JsonViewer } from "@textea/json-viewer"
+import { Button, Spinner } from "@heroui/react"
+import { JsonPreview } from "@/shared/ui/JsonPreview"
 import { apiClient } from "@/shared/api/client"
+import styles from "./AiTestPage.module.scss"
 
 export function AiTestPage() {
 	const [data, setData] = useState<unknown>(null)
@@ -23,38 +24,26 @@ export function AiTestPage() {
 	}
 
 	return (
-		<Container sx={{ py: 4 }}>
-			<Typography variant="h5" component="h1" gutterBottom>
-				Тест
-			</Typography>
+		<div className={styles.page}>
+			<h1 className={styles.title}>Тест</h1>
 
 			<Button
-				variant="contained"
-				onClick={handleTest}
-				disabled={loading}
-				startIcon={loading ? <CircularProgress size={16} color="inherit" /> : null}
+				variant="primary"
+				onPress={handleTest}
+				isDisabled={loading}
 			>
+				{loading && <Spinner size="sm" />}
 				Тест ИИ
 			</Button>
 
-			{error && (
-				<Typography color="error" sx={{ mt: 2 }}>
-					{error}
-				</Typography>
-			)}
+			{error && <p className={styles.error}>{error}</p>}
 
 			{data !== null && (
-				<Box sx={{ mt: 3 }}>
-					<Typography variant="subtitle2" gutterBottom>
-						Результат
-					</Typography>
-					<JsonViewer
-						value={data}
-						defaultInspectDepth={3}
-						rootName={false}
-					/>
-				</Box>
+				<div className={styles.resultBlock}>
+					<p className={styles.resultTitle}>Результат</p>
+					<JsonPreview data={data} />
+				</div>
 			)}
-		</Container>
+		</div>
 	)
 }

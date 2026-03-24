@@ -1,4 +1,3 @@
-import { Box } from "@mui/material"
 import { AnimatePresence, motion } from "motion/react"
 import {
 	SearchForm,
@@ -6,6 +5,7 @@ import {
 	useSearchArticles,
 	useGetArticlesAfterSearch,
 } from "@/entities/articles"
+import styles from "./ArticleSearch.module.scss"
 
 export function ArticleSearch() {
 	const { search, isPending } = useSearchArticles()
@@ -13,7 +13,7 @@ export function ArticleSearch() {
 	const hasData = hasResult && data !== undefined
 
 	return (
-		<Box sx={{ display: "flex", gap: 4 }}>
+		<div className={styles.wrapper}>
 			<motion.div
 				layout
 				transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -40,6 +40,6 @@ export function ArticleSearch() {
 					</motion.div>
 				)}
 			</AnimatePresence>
-		</Box>
+		</div>
 	)
 }

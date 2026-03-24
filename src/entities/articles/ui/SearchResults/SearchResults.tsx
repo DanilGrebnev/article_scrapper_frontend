@@ -1,52 +1,36 @@
 import { Link } from "react-router-dom"
-import { Box, Button, Typography, Alert } from "@mui/material"
-import { JsonViewer } from "@textea/json-viewer"
+import { Alert, Button } from "@heroui/react"
+import { JsonPreview } from "@/shared/ui/JsonPreview"
 import { useGetArticlesAfterSearch } from "@/entities/articles/api/articles"
+import styles from "./SearchResults.module.scss"
 
 export function SearchResults() {
 	const { data, error, status, hasResult } = useGetArticlesAfterSearch()
 
 	return (
-		<Box>
+		<div>
 			{status === "error" && error && (
-				<Alert
-					severity="error"
-					sx={{ mb: 1, py: 0.5 }}
-					variant="outlined"
-				>
-					{error.message}
-				</Alert>
+				<Alert color="danger">{error.message}</Alert>
 			)}
 
 			{!hasResult && (
-				<Typography
-					variant="body2"
-					color="text.secondary"
-					textAlign="center"
-				>
+				<p className={styles.empty}>
 					Заполните форму и нажмите «Поиск»
-				</Typography>
+				</p>
 			)}
 
 			{data !== undefined && (
-				<Box>
-					<Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
-						<Button
-							component={Link}
-							to="/search-detail"
-							size="small"
-							variant="outlined"
-						>
-							Подробнее
-						</Button>
-					</Box>
-					<JsonViewer
-						value={data}
-						defaultInspectDepth={2}
-						rootName={false}
-					/>
-				</Box>
+				<div>
+					<div className={styles.toolbar}>
+						<Link to="/search-detail">
+							<Button size="sm" variant="outline">
+								Подробнее
+							</Button>
+						</Link>
+					</div>
+					<JsonPreview data={data} />
+				</div>
 			)}
-		</Box>
+		</div>
 	)
 }

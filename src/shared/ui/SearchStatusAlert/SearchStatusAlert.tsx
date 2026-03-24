@@ -1,4 +1,4 @@
-import { Alert, Typography } from "@mui/material"
+import { Alert, Spinner } from "@heroui/react"
 
 interface SearchStatusAlertProps {
 	status?: "idle" | "pending" | "error" | "success"
@@ -7,17 +7,11 @@ interface SearchStatusAlertProps {
 
 export function SearchStatusAlert({ status, error }: SearchStatusAlertProps) {
 	if (status === "error" && error) {
-		return (
-			<Alert severity="error" variant="outlined" sx={{ mb: 2 }}>
-				{error.message}
-			</Alert>
-		)
+		return <Alert color="danger">{error.message}</Alert>
 	}
 
 	if (status === "pending") {
-		return (
-			<Typography color="text.secondary">Загрузка...</Typography>
-		)
+		return <Spinner size="sm" />
 	}
 
 	return null

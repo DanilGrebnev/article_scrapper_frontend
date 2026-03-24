@@ -1,0 +1,30 @@
+.wrapper {
+	margin-top: 12px;
+}
+
+.trigger {
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.875rem;
+	margin-top: 8px;
+}
+
+.table th,
+.table td {
+	text-align: left;
+	padding: 8px 12px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+	font-weight: 600;
+}
+
+.table td:first-child {
+	vertical-align: top;
+}

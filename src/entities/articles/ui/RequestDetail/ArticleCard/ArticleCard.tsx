@@ -1,7 +1,8 @@
-import { Card, CardContent, Link, Typography } from "@mui/material"
+import { Card, Link } from "@heroui/react"
 import type { MatchedArticle } from "../../../model/types"
 import { ArticleExplanation } from "./ArticleExplanation/ArticleExplanation"
 import { ComparisonRulesTable } from "./ComparisonRulesTable/ComparisonRulesTable"
+import styles from "./ArticleCard.module.scss"
 
 interface ArticleCardProps {
 	article: MatchedArticle
@@ -13,42 +14,25 @@ interface ArticleCardProps {
  */
 export function ArticleCard({ article }: ArticleCardProps) {
 	return (
-		<Card variant="outlined">
-			<CardContent sx={{ pb: 1 }}>
-				<Typography
-					variant="body2"
-					color="text.secondary"
-					sx={{ mb: 0.5 }}
-				>
-					ID: {article.id}
-				</Typography>
-				<Typography variant="subtitle1" fontWeight={600}>
-					{article.t_title}
-				</Typography>
-				<Typography
-					variant="body2"
-					sx={{ mt: 1, whiteSpace: "pre-wrap" }}
-				>
-					{article.t_abstract}
-				</Typography>
+		<Card>
+			<div style={{ padding: 16 }}>
+				<p className={styles.id}>ID: {article.id}</p>
+				<p className={styles.title}>{article.t_title}</p>
+				<p className={styles.abstract}>{article.t_abstract}</p>
+
 				{article.authors && (
-					<Typography
-						variant="body2"
-						color="text.secondary"
-						sx={{ mt: 1 }}
-					>
-						{article.authors}
-					</Typography>
+					<p className={styles.authors}>{article.authors}</p>
 				)}
+
 				{article.link && (
 					<Link
 						href={article.link}
 						target="_blank"
 						rel="noopener noreferrer"
-						variant="body2"
-						sx={{ mt: 1, display: "inline-block" }}
+						className={styles.link}
 					>
 						Оригинал статьи
+						<Link.Icon />
 					</Link>
 				)}
 
@@ -59,7 +43,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
 				{article.comparison_of_rules?.length > 0 && (
 					<ComparisonRulesTable rules={article.comparison_of_rules} />
 				)}
-			</CardContent>
+			</div>
 		</Card>
 	)
 }

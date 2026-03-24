@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import { Box, Container, Typography } from "@mui/material"
 import { RegisterForm } from "@/entities/user"
 import type { RegisterParams } from "@/entities/user"
+import styles from "./RegisterPage.module.scss"
 
 export function RegisterPage() {
 	const navigate = useNavigate()
@@ -12,26 +12,21 @@ export function RegisterPage() {
 	}
 
 	return (
-		<Container maxWidth="xs" sx={{ py: 4 }}>
+		<div className={styles.page}>
 			<RegisterForm onSubmit={handleRegister} />
-			<Box sx={{ mt: 2, textAlign: "center" }}>
-				<Typography variant="body2" color="text.secondary">
-					Уже есть аккаунт?{" "}
-					<Typography
-						component="a"
-						href="/login"
-						variant="body2"
-						color="primary"
-						onClick={(e) => {
-							e.preventDefault()
-							navigate("/login")
-						}}
-						sx={{ cursor: "pointer" }}
-					>
-						Войти
-					</Typography>
-				</Typography>
-			</Box>
-		</Container>
+			<p className={styles.footer}>
+				Уже есть аккаунт?{" "}
+				<a
+					href="/login"
+					className={styles.footerLink}
+					onClick={(e) => {
+						e.preventDefault()
+						navigate("/login")
+					}}
+				>
+					Войти
+				</a>
+			</p>
+		</div>
 	)
 }

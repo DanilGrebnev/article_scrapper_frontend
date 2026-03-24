@@ -7,6 +7,7 @@ import { SearchDetailPage } from "@/pages/search-detail/ui/SearchDetailPage"
 import { AiTestPage } from "@/pages/ai-test/ui/AiTestPage"
 import { AuthPage } from "@/pages/auth/ui/AuthPage"
 import { RegisterPage } from "@/pages/register/ui/RegisterPage"
+import { ProfilePage } from "@/pages/profile/ui/ProfilePage"
 import styles from "./App.module.scss"
 
 export function App() {
@@ -23,6 +24,7 @@ export function App() {
 						<Route path="/ai-test" element={<AiTestPage />} />
 						<Route path="/login" element={<AuthPage />} />
 						<Route path="/register" element={<RegisterPage />} />
+						<Route path="/profile" element={<ProfilePage />} />
 						</Routes>
 					</main>
 				</div>

@@ -1,14 +1,15 @@
 export type SearchDiscipline = "Metallurgy" | "Economics"
 
 export interface SearchParams {
-	targetTheme?: string
-	description?: string
+	target_theme?: string
+	field_knowledge?: string
+	target_context?: string
 	language?: string
 	discipline?: SearchDiscipline
 	theme?: string
 	dateFrom?: number
 	dateTo?: number
-	isAccess?: boolean
+	openAccess?: boolean
 }
 
 export interface ComparisonRule {
@@ -29,7 +30,7 @@ export interface MatchedArticle {
 	authors?: string
 	published?: string
 	publications_type?: string
-	is_access?: boolean
+	openAccess?: boolean
 }
 
 export interface SearchResponse {

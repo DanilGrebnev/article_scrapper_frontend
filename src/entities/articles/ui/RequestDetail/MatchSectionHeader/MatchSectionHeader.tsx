@@ -1,4 +1,5 @@
-import { Box, Chip, Divider, Typography } from "@mui/material"
+import { Chip } from "@heroui/react"
+import styles from "./MatchSectionHeader.module.scss"
 
 interface MatchSectionHeaderProps {
 	label: string
@@ -13,17 +14,18 @@ interface MatchSectionHeaderProps {
 export function MatchSectionHeader({ label, color, bg, count }: MatchSectionHeaderProps) {
 	return (
 		<>
-			<Divider sx={{ mb: 2 }} />
-			<Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-				<Typography variant="h6" sx={{ color }}>
+			<hr className={styles.divider} />
+			<div className={styles.row}>
+				<span className={styles.label} style={{ color }}>
 					{label}
-				</Typography>
+				</span>
 				<Chip
-					label={count}
-					size="small"
-					sx={{ bgcolor: bg, color, fontWeight: 700 }}
-				/>
-			</Box>
+					size="sm"
+					style={{ backgroundColor: bg, color, fontWeight: 700 }}
+				>
+					{count}
+				</Chip>
+			</div>
 		</>
 	)
 }

@@ -1,9 +1,9 @@
-import { Box, Stack } from "@mui/material"
 import { ArticleCard } from "./ArticleCard/ArticleCard"
 import { MatchSectionHeader } from "./MatchSectionHeader/MatchSectionHeader"
 import { RenderArticleList } from "./RenderArticleList/RenderArticleList"
 import { SearchParamsDisplay } from "./SearchParamsDisplay/SearchParamsDisplay"
 import type { SearchParams, SearchResponse } from "../../model/types"
+import styles from "./RequestDetail.module.scss"
 
 const MATCH_SECTIONS = [
 	{
@@ -35,18 +35,17 @@ interface RequestDetailProps {
  * Отвечает за показ детализации запроса.
  * Рендерит параметры запроса, три блока по степени совпадения
  * (высокое, среднее, низкое) и карточки статей в каждом блоке.
- * В будущем будет рендериться на отдельной странице при нажатии на item запроса.
  */
 export function RequestDetail({ response, variables }: RequestDetailProps) {
 	return (
 		<>
 			{variables && <SearchParamsDisplay data={variables} />}
-			<Stack spacing={3}>
+			<div className={styles.sections}>
 				{MATCH_SECTIONS.map(({ key, label, color, bg }) => {
 					const articles = response[key] ?? []
 
 					return (
-						<Box key={key}>
+						<div key={key}>
 							<MatchSectionHeader
 								label={label}
 								color={color}
@@ -57,10 +56,10 @@ export function RequestDetail({ response, variables }: RequestDetailProps) {
 							<RenderArticleList articles={articles}>
 								{(article) => <ArticleCard article={article} />}
 							</RenderArticleList>
-						</Box>
+						</div>
 					)
 				})}
-			</Stack>
+			</div>
 		</>
 	)
 }

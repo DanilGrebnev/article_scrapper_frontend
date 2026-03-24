@@ -1,63 +1,46 @@
-import { useState } from "react"
-import {
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Typography,
-} from "@mui/material"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import { Disclosure } from "@heroui/react"
 import type { ComparisonRule } from "../../../../model/types"
+import styles from "./ComparisonRulesTable.module.scss"
 
 interface ComparisonRulesTableProps {
 	rules: ComparisonRule[]
 }
 
 /**
- * Отображает правила сравнения в раскрывающемся Accordion.
+ * Отображает правила сравнения в раскрывающемся Disclosure.
  * Показывает таблицу: правило — описание.
  */
 export function ComparisonRulesTable({ rules }: ComparisonRulesTableProps) {
-	const [expanded, setExpanded] = useState(false)
-
 	return (
-		<Accordion
-			expanded={expanded}
-			onChange={() => setExpanded(!expanded)}
-			disableGutters
-			elevation={0}
-			sx={{ mt: 1.5, "&::before": { display: "none" } }}
-		>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ px: 0, minHeight: 36 }}>
-				<Typography variant="body2" fontWeight={600}>
-					Правила сравнения ({rules.length})
-				</Typography>
-			</AccordionSummary>
-			<AccordionDetails sx={{ px: 0 }}>
-				<TableContainer>
-					<Table size="small">
-						<TableHead>
-							<TableRow>
-								<TableCell sx={{ fontWeight: 600 }}>Правило</TableCell>
-								<TableCell sx={{ fontWeight: 600 }}>Описание</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
+		<div className={styles.wrapper}>
+			<Disclosure>
+				<Disclosure.Heading>
+					<Disclosure.Trigger>
+						<span className={styles.trigger}>
+							Правила сравнения ({rules.length})
+						</span>
+						<Disclosure.Indicator />
+					</Disclosure.Trigger>
+				</Disclosure.Heading>
+				<Disclosure.Content>
+					<table className={styles.table}>
+						<thead>
+							<tr>
+								<th>Правило</th>
+								<th>Описание</th>
+							</tr>
+						</thead>
+						<tbody>
 							{rules.map((rule, i) => (
-								<TableRow key={i}>
-									<TableCell sx={{ verticalAlign: "top" }}>{rule.rule}</TableCell>
-									<TableCell>{rule.description}</TableCell>
-								</TableRow>
+								<tr key={i}>
+									<td>{rule.rule}</td>
+									<td>{rule.description}</td>
+								</tr>
 							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</AccordionDetails>
-		</Accordion>
+						</tbody>
+					</table>
+				</Disclosure.Content>
+			</Disclosure>
+		</div>
 	)
 }

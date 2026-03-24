@@ -1,0 +1,17 @@
+.wrapper {
+	background: #f8f9fa;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 16px;
+	overflow: auto;
+	max-height: 600px;
+}
+
+.code {
+	font-family: "Fira Code", "Consolas", "Monaco", monospace;
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	white-space: pre-wrap;
+	word-break: break-word;
+	margin: 0;
+}

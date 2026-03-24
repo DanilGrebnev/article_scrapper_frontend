@@ -1,0 +1,25 @@
+.link {
+	text-decoration: none;
+	color: inherit;
+
+	&:hover .info {
+		opacity: 0.75;
+	}
+}
+
+.info {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	transition: opacity 0.15s;
+}
+
+.nickname {
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.balance {
+	font-size: 0.875rem;
+	color: #666;
+}

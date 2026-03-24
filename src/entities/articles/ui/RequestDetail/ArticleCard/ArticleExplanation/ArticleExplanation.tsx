@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import styles from "./ArticleExplanation.module.scss"
 
 interface ArticleExplanationProps {
 	explanation: string
@@ -9,18 +9,9 @@ interface ArticleExplanationProps {
  */
 export function ArticleExplanation({ explanation }: ArticleExplanationProps) {
 	return (
-		<Box
-			sx={{
-				mt: 1.5,
-				p: 1.5,
-				bgcolor: "grey.50",
-				borderRadius: 1,
-			}}
-		>
-			<Typography variant="caption" color="text.secondary" fontWeight={600}>
-				Объяснение
-			</Typography>
-			<Typography variant="body2">{explanation}</Typography>
-		</Box>
+		<div className={styles.wrapper}>
+			<p className={styles.label}>Объяснение</p>
+			<p className={styles.text}>{explanation}</p>
+		</div>
 	)
 }

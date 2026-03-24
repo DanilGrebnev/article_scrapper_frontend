@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form"
-import { Box, Button, CircularProgress, Stack, TextField, Typography } from "@mui/material"
+import { Button, Input, Label, Spinner, TextField } from "@heroui/react"
 import type { AuthParams } from "../../model/types"
+import styles from "./AuthForm.module.scss"
 
 interface AuthFormProps {
 	onSubmit: (params: AuthParams) => void
@@ -19,37 +20,32 @@ export function AuthForm({ onSubmit, isPending }: AuthFormProps) {
 	})
 
 	return (
-		<Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-			<Typography variant="h5" component="h1" gutterBottom>
-				Авторизация
-			</Typography>
-			<Stack spacing={2}>
-				<TextField
-					label="Email"
-					type="email"
-					size="small"
-					fullWidth
-					required
-					{...register("email", { required: true })}
-				/>
-				<TextField
-					label="Пароль"
-					type="password"
-					size="small"
-					fullWidth
-					required
-					{...register("password", { required: true })}
-				/>
+		<form onSubmit={handleSubmit(onSubmit)} noValidate>
+			<h1 className={styles.title}>Авторизация</h1>
+			<div className={styles.fields}>
+				<TextField isRequired>
+					<Label>Email</Label>
+					<Input
+						type="email"
+						{...register("email", { required: true })}
+					/>
+				</TextField>
+				<TextField isRequired>
+					<Label>Пароль</Label>
+					<Input
+						type="password"
+						{...register("password", { required: true })}
+					/>
+				</TextField>
 				<Button
 					type="submit"
-					variant="contained"
-					size="small"
-					disabled={isPending}
-					startIcon={isPending ? <CircularProgress size={16} color="inherit" /> : null}
+					variant="primary"
+					isDisabled={isPending}
 				>
+					{isPending && <Spinner size="sm" />}
 					Войти
 				</Button>
-			</Stack>
-		</Box>
+			</div>
+		</form>
 	)
 }

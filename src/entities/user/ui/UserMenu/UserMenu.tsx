@@ -1,6 +1,7 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Button } from "@heroui/react"
 import { Link } from "react-router-dom"
 import type { User } from "../../model/types"
+import styles from "./UserMenu.module.scss"
 
 const MOCK_USER: User = {
 	nickname: "TestUser",
@@ -17,25 +18,20 @@ interface UserMenuProps {
 export function UserMenu({ user = MOCK_USER }: UserMenuProps) {
 	if (!user) {
 		return (
-			<Button
-				component={Link}
-				to="/login"
-				size="small"
-				variant="outlined"
-			>
-				Войти
-			</Button>
+			<Link to="/login">
+				<Button size="sm" variant="outline">Войти</Button>
+			</Link>
 		)
 	}
 
 	return (
-		<Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-			<Typography variant="body2" color="text.secondary">
-				{user.balance.toLocaleString("ru-RU")} ₽
-			</Typography>
-			<Typography variant="body2" fontWeight={600}>
-				{user.nickname}
-			</Typography>
-		</Box>
+		<Link to="/profile" className={styles.link}>
+			<div className={styles.info}>
+				<span className={styles.balance}>
+					{user.balance.toLocaleString("ru-RU")} ₽
+				</span>
+				<span className={styles.nickname}>{user.nickname}</span>
+			</div>
+		</Link>
 	)
 }
