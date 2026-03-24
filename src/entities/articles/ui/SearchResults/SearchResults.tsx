@@ -1,4 +1,5 @@
-import { Box, Typography, Alert } from "@mui/material"
+import { Link } from "react-router-dom"
+import { Box, Button, Typography, Alert } from "@mui/material"
 import { JsonViewer } from "@textea/json-viewer"
 import { useGetArticlesAfterSearch } from "@/entities/articles/api/articles"
 
@@ -29,6 +30,16 @@ export function SearchResults() {
 
 			{data !== undefined && (
 				<Box>
+					<Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
+						<Button
+							component={Link}
+							to="/search-detail"
+							size="small"
+							variant="outlined"
+						>
+							Подробнее
+						</Button>
+					</Box>
 					<JsonViewer
 						value={data}
 						defaultInspectDepth={2}

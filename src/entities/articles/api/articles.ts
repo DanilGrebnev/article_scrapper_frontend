@@ -17,17 +17,24 @@ export function useSearchArticles() {
 }
 
 export function useGetArticlesAfterSearch() {
-	const mutations = useMutationState({
+	const states = useMutationState({
 		filters: { mutationKey: SEARCH_ARTICLES_KEY },
 		select: (m) => m.state,
 	})
 
-	const last = mutations[mutations.length - 1]
+	const variables = useMutationState({
+		filters: { mutationKey: SEARCH_ARTICLES_KEY },
+		select: (m) => m.state.variables as SearchParams | undefined,
+	})
+
+	const last = states[states.length - 1]
+	const lastVars = variables[variables.length - 1]
 
 	return {
 		data: last?.data,
 		error: last?.error as Error | undefined,
 		status: last?.status,
 		hasResult: !!last,
+		variables: lastVars,
 	}
 }

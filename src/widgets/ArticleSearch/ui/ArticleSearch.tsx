@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material"
+import { Box } from "@mui/material"
 import {
 	SearchForm,
 	SearchResults,
@@ -10,10 +10,6 @@ export function ArticleSearch() {
 
 	return (
 		<Box sx={{ maxWidth: 720, mx: "auto" }}>
-			<Typography variant="h5" component="h1" gutterBottom>
-				Поиск статей
-			</Typography>
-
 			<SearchForm onSearch={search} isPending={isPending} />
 			<SearchResults />
 		</Box>
