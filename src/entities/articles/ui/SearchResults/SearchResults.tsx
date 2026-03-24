@@ -7,7 +7,7 @@ export function SearchResults() {
 	const { data, error, status, hasResult } = useGetArticlesAfterSearch()
 
 	return (
-		<Box sx={{ mt: 4 }}>
+		<Box>
 			{status === "error" && error && (
 				<Alert
 					severity="error"

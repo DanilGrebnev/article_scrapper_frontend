@@ -14,9 +14,17 @@ import {
 	Typography,
 } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
-import type { SearchParams } from "@/entities/articles/model/types"
+import type {
+	SearchDiscipline,
+	SearchParams,
+} from "@/entities/articles/model/types"
 
 const LANGUAGES = ["russian", "english", "deutsch", "french", "spanish"]
+
+const DISCIPLINE_OPTIONS: { value: SearchDiscipline; label: string }[] = [
+	{ value: "Metallurgy", label: "Металлургия" },
+	{ value: "Economics", label: "Экономика" },
+]
 
 interface SearchFormProps {
 	onSearch: (params: SearchParams) => void
@@ -26,13 +34,13 @@ interface SearchFormProps {
 export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 	const { register, handleSubmit, control } = useForm<SearchParams>({
 		defaultValues: {
-			title: "",
+			targetTheme: "",
 			description: "",
-			abstract_description: "",
 			language: "russian",
+			discipline: "Metallurgy",
 			theme: "surface alloying of iron castings in a casting mold",
-			dateFrom: 2016,
-			dateTo: 2017,
+			dateFrom: 2024,
+			dateTo: 2025,
 			isAccess: false,
 		},
 	})
@@ -45,12 +53,33 @@ export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 						Параметры фильтрации
 					</Typography>
 					<Stack spacing={2}>
+						<Controller
+							name="discipline"
+							control={control}
+							render={({ field }) => (
+								<FormControl size="small" fullWidth>
+									<InputLabel>Направление</InputLabel>
+									<Select {...field} label="Направление">
+										{DISCIPLINE_OPTIONS.map(
+											({ value, label }) => (
+												<MenuItem
+													key={value}
+													value={value}
+												>
+													{label}
+												</MenuItem>
+											),
+										)}
+									</Select>
+								</FormControl>
+							)}
+						/>
 						<TextField
 							label="Целевая тема"
 							placeholder="Тема по которой нужно искать"
 							size="small"
 							fullWidth
-							{...register("title")}
+							{...register("targetTheme")}
 						/>
 						<TextField
 							label="Раскрытие темы"
@@ -60,15 +89,6 @@ export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 							multiline
 							minRows={2}
 							{...register("description")}
-						/>
-						<TextField
-							label="Ключевые фразы и слова"
-							placeholder="Ключевые слова и фразы помогающие лучше понять тему"
-							size="small"
-							fullWidth
-							multiline
-							minRows={2}
-							{...register("abstract_description")}
 						/>
 						<Controller
 							name="language"
