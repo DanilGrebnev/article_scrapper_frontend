@@ -1,11 +1,8 @@
-export type SearchDiscipline = "Metallurgy" | "Economics"
-
 export interface SearchParams {
 	target_theme?: string
 	field_knowledge?: string
 	target_context?: string
 	language?: string
-	discipline?: SearchDiscipline
 	theme?: string
 	dateFrom?: number
 	dateTo?: number

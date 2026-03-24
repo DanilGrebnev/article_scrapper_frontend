@@ -7,10 +7,7 @@ import { InputField } from "@/shared/ui/InputField"
 import { TextAreaField } from "@/shared/ui/TextAreaField"
 
 import { Search } from "lucide-react"
-import type {
-	SearchDiscipline,
-	SearchParams,
-} from "@/entities/articles/model/types"
+import type { SearchParams } from "@/entities/articles/model/types"
 import styles from "./SearchForm.module.scss"
 
 const LANGUAGE_OPTIONS = [
@@ -21,7 +18,7 @@ const LANGUAGE_OPTIONS = [
 	{ value: "spanish", label: "spanish" },
 ]
 
-const DISCIPLINE_OPTIONS: { value: SearchDiscipline; label: string }[] = [
+const FIELD_KNOWLEDGE_OPTIONS = [
 	{ value: "Metallurgy", label: "Металлургия" },
 	{ value: "Economics", label: "Экономика" },
 ]
@@ -32,92 +29,100 @@ interface SearchFormProps {
 }
 
 export function SearchForm({ onSearch, isPending }: SearchFormProps) {
-	const { register, handleSubmit, control, trigger, getValues } = useForm<SearchParams>({
-		mode: "onChange",
-		defaultValues: {
-			target_theme: "",
-			field_knowledge: "",
-			target_context: "",
-			language: "russian",
-			discipline: "Metallurgy",
-			theme: "surface alloying of iron castings in a casting mold",
-			dateFrom: 2024,
-			dateTo: 2025,
-			openAccess: false,
-		},
-	})
+	const { register, handleSubmit, control, trigger, getValues } =
+		useForm<SearchParams>({
+			mode: "onChange",
+			defaultValues: {
+				target_theme: "",
+				field_knowledge: "",
+				target_context: "",
+				language: "russian",
+				theme: "",
+				dateFrom: 2024,
+				dateTo: 2025,
+				openAccess: false,
+			},
+		})
 
 	return (
-		<form onSubmit={handleSubmit(onSearch)} noValidate>
-			<div className={styles.section}>
-				<div>
-					<p className={styles.sectionTitle}>Параметры фильтрации</p>
-					<div className={styles.fields}>
-						<Controller
-							name="discipline"
-							control={control}
-							render={({ field }) => (
-								<SelectField
-									label="Направление"
-									options={DISCIPLINE_OPTIONS}
-									value={field.value}
-									onChange={field.onChange}
-									onBlur={field.onBlur}
-								/>
-							)}
-						/>
-						<InputField
-							label="Целевая тема"
-							placeholder="Тема по которой нужно искать"
-							{...register("target_theme")}
-						/>
-						<TextAreaField
-							label="Раскрытие темы"
-							placeholder="Раскрытие темы"
-							rows={2}
-							{...register("field_knowledge")}
-						/>
-						<TextAreaField
-							label="Ключевые фразы и слова"
-							placeholder="Ключевые слова и фразы помогающие лучше понять тему"
-							rows={2}
-							{...register("target_context")}
-						/>
-						<Controller
-							name="language"
-							control={control}
-							render={({ field }) => (
-								<SelectField
-									label="Language"
-									options={LANGUAGE_OPTIONS}
-									value={field.value}
-									onChange={field.onChange}
-									onBlur={field.onBlur}
-								/>
-							)}
-						/>
+		<form
+			onSubmit={handleSubmit((data) => {
+				onSearch(data)
+				console.log(data)
+			})}
+			noValidate
+		>
+			<div className={styles.form}>
+				<div className={styles.columns}>
+					<div>
+						<p className={styles.sectionTitle}>
+							Параметры фильтрации
+						</p>
+						<div className={styles.fields}>
+							<Controller
+								name="field_knowledge"
+								control={control}
+								render={({ field }) => (
+									<SelectField
+										label="Направление"
+										options={FIELD_KNOWLEDGE_OPTIONS}
+										value={field.value}
+										onChange={field.onChange}
+										onBlur={field.onBlur}
+									/>
+								)}
+							/>
+							<InputField
+								label="Целевая тема"
+								placeholder="Тема по которой нужно искать"
+								{...register("target_theme")}
+							/>
+							<TextAreaField
+								label="Раскрытие темы"
+								placeholder="Раскрытие темы"
+								rows={2}
+								{...register("target_context")}
+							/>
+							<Controller
+								name="language"
+								control={control}
+								render={({ field }) => (
+									<SelectField
+										label="Language"
+										options={LANGUAGE_OPTIONS}
+										value={field.value}
+										onChange={field.onChange}
+										onBlur={field.onBlur}
+									/>
+								)}
+							/>
+						</div>
 					</div>
-				</div>
 
-				<div>
-					<p className={styles.sectionTitle}>
-						Параметры поиска статей
-					</p>
-					<div className={styles.fields}>
-						<InputField label="Theme" {...register("theme")} />
-						<DateRangeFields control={control} trigger={trigger} getValues={getValues} />
-						<Controller
-							name="openAccess"
-							control={control}
-							render={({ field }) => (
-								<CheckboxField
-									label="Open access"
-									isSelected={field.value ?? false}
-									onChange={field.onChange}
-									onBlur={field.onBlur}
-								/>
-							)}
-						/>
+					<div>
+						<p className={styles.sectionTitle}>
+							Параметры поиска статей
+						</p>
+						<div className={styles.fields}>
+							<InputField label="Тема" {...register("theme")} />
+							<DateRangeFields
+								control={control}
+								trigger={trigger}
+								getValues={getValues}
+							/>
+							<Controller
+								name="openAccess"
+								control={control}
+								render={({ field }) => (
+									<CheckboxField
+										label="Open access"
+										isSelected={field.value ?? false}
+										onChange={field.onChange}
+										onBlur={field.onBlur}
+									/>
+								)}
+							/>
+						</div>
 					</div>
 				</div>
 

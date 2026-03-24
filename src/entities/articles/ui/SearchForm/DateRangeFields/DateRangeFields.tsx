@@ -59,7 +59,7 @@ export function DateRangeFields({ control, trigger, getValues }: DateRangeFields
 		<div className={styles.wrapper}>
 			<div className={styles.row}>
 				<TextField isInvalid={!!fromState.error}>
-					<Label>Date From</Label>
+					<Label>Год от</Label>
 					<Input
 						type="number"
 						placeholder="2024"
@@ -78,7 +78,7 @@ export function DateRangeFields({ control, trigger, getValues }: DateRangeFields
 					/>
 				</TextField>
 				<TextField isInvalid={!!toState.error}>
-					<Label>Date To</Label>
+					<Label>Год до</Label>
 					<Input
 						type="number"
 						placeholder="2025"

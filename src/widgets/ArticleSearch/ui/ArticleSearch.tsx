@@ -14,27 +14,16 @@ export function ArticleSearch() {
 
 	return (
 		<div className={styles.wrapper}>
-			<motion.div
-				layout
-				transition={{ duration: 0.4, ease: "easeInOut" }}
-				style={{
-					width: 420,
-					flexShrink: 0,
-					marginInline: hasData ? "0" : "auto",
-				}}
-			>
-				<SearchForm onSearch={search} isPending={isPending} />
-			</motion.div>
+			<SearchForm onSearch={search} isPending={isPending} />
 
 			<AnimatePresence>
 				{hasData && (
 					<motion.div
 						key="results"
-						initial={{ opacity: 0, x: 40 }}
-						animate={{ opacity: 1, x: 0 }}
-						exit={{ opacity: 0, x: 40 }}
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 20 }}
 						transition={{ duration: 0.35, ease: "easeOut" }}
-						style={{ flex: 1, minWidth: 0 }}
 					>
 						<SearchResults />
 					</motion.div>
