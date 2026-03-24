@@ -22,13 +22,16 @@ export function App() {
 						<Header />
 						<main className={styles.main}>
 							<Routes>
-								<Route path="/login" element={<GuestRoute><AuthPage /></GuestRoute>} />
-								<Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
-								<Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-								<Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
-								<Route path="/search-detail" element={<ProtectedRoute><SearchDetailPage /></ProtectedRoute>} />
-								<Route path="/ai-test" element={<ProtectedRoute><AiTestPage /></ProtectedRoute>} />
-								<Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+								{/* TODO: вернуть GuestRoute/ProtectedRoute когда бэкенд будет готов */}
+								{/* <Route path="/login" element={<GuestRoute><AuthPage /></GuestRoute>} /> */}
+								{/* <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} /> */}
+								<Route path="/login" element={<AuthPage />} />
+								<Route path="/register" element={<RegisterPage />} />
+								<Route path="/" element={<HomePage />} />
+								<Route path="/history" element={<HistoryPage />} />
+								<Route path="/search-detail" element={<SearchDetailPage />} />
+								<Route path="/ai-test" element={<AiTestPage />} />
+								<Route path="/profile" element={<ProfilePage />} />
 							</Routes>
 						</main>
 					</div>

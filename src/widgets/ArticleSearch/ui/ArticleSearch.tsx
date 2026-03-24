@@ -2,22 +2,28 @@ import { AnimatePresence, motion } from "motion/react"
 import {
 	SearchForm,
 	SearchResults,
-	useSearchArticles,
-	useGetArticlesAfterSearch,
+	useArticleSearchJob,
 } from "@/entities/articles"
 import styles from "./ArticleSearch.module.scss"
 
 export function ArticleSearch() {
-	const { search, isPending } = useSearchArticles()
-	const { data, hasResult } = useGetArticlesAfterSearch()
-	const hasData = hasResult && data !== undefined
+	const { startSearch, isBusy, data, error, statusMessage } =
+		useArticleSearchJob()
 
 	return (
 		<div className={styles.wrapper}>
-			<SearchForm onSearch={search} isPending={isPending} />
+			<SearchForm onSearch={startSearch} isPending={isBusy} />
+
+			{error && (
+				<p className={styles.error}>{error}</p>
+			)}
+
+			{isBusy && statusMessage && (
+				<p className={styles.status}>{statusMessage}</p>
+			)}
 
 			<AnimatePresence>
-				{hasData && (
+				{data && (
 					<motion.div
 						key="results"
 						initial={{ opacity: 0, y: 20 }}

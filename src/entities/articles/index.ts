@@ -1,11 +1,16 @@
 export { SearchForm } from "./ui/SearchForm/SearchForm"
 export { SearchResults } from "./ui/SearchResults/SearchResults"
 export { RequestDetail } from "./ui/RequestDetail/RequestDetail"
-export { useSearchArticles, useGetArticlesAfterSearch, SEARCH_ARTICLES_KEY } from "./api/articles"
+export {
+	useArticleSearchJob,
+	useArticleSearchResult,
+	ARTICLE_SEARCH_RESULT_KEY,
+} from "./api/articles"
 export type {
 	SearchParams,
-	SearchDiscipline,
 	SearchResponse,
 	MatchedArticle,
 	ComparisonRule,
+	ArticleSearchStartResponse,
+	CheckSearchResponse,
 } from "./model/types"

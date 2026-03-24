@@ -1,17 +1,13 @@
 import { useNavigate } from "react-router-dom"
 import { Alert, Button } from "@heroui/react"
 import { ArrowLeft } from "lucide-react"
-import { RequestDetail } from "@/entities/articles"
-import { SearchStatusAlert } from "@/shared/ui/SearchStatusAlert"
-import { useGetArticlesAfterSearch } from "@/entities/articles/api/articles"
+import { RequestDetail, useArticleSearchResult } from "@/entities/articles"
 import type { SearchResponse } from "@/entities/articles/model/types"
 import styles from "./SearchDetailPage.module.scss"
 
 export function SearchDetailPage() {
 	const navigate = useNavigate()
-	const { data, error, status, hasResult, variables } =
-		useGetArticlesAfterSearch()
-	const response = data as SearchResponse | undefined
+	const data = useArticleSearchResult() as SearchResponse | null
 
 	return (
 		<div className={styles.page}>
@@ -26,16 +22,14 @@ export function SearchDetailPage() {
 
 			<h1 className={styles.title}>Детализация поиска</h1>
 
-			{!hasResult && (
+			{!data && (
 				<Alert color="primary">
 					Нет данных. Сначала выполните поиск на главной странице.
 				</Alert>
 			)}
 
-			<SearchStatusAlert status={status} error={error} />
-
-			{response && (
-				<RequestDetail response={response} variables={variables} />
+			{data && (
+				<RequestDetail response={data} />
 			)}
 		</div>
 	)

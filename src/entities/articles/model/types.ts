@@ -35,3 +35,12 @@ export interface SearchResponse {
 	medium_match: MatchedArticle[]
 	low_match: MatchedArticle[]
 }
+
+export interface ArticleSearchStartResponse {
+	id: string
+}
+
+export type CheckSearchResponse =
+	| { status: "process"; message: string }
+	| { status: "error"; message: string }
+	| { status: "success"; result: SearchResponse }
