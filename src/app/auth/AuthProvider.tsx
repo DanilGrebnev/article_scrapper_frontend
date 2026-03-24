@@ -7,24 +7,26 @@ import {
 	useRef,
 	type ReactNode,
 } from "react"
-import { login as apiLogin, logout as apiLogout } from "@/shared/api/auth"
+import {
+	login as apiLogin,
+	logout as apiLogout,
+	fetchProfile,
+} from "@/shared/api/auth"
 import {
 	getRefreshToken,
-	getAccessToken,
 	clearTokens,
-	decodeJwtPayload,
 } from "@/shared/api/token-store"
 import {
 	refreshAccessToken,
 	applyTokenBundle,
 	setOnSessionInvalidated,
 } from "@/shared/api/token-refresh"
-import type { AuthParams, User } from "@/entities/user/model/types"
+import type { AuthParams, UserProfile } from "@/entities/user/model/types"
 
 interface AuthContextValue {
 	isAuthReady: boolean
 	isAuthenticated: boolean
-	user: User | null
+	user: UserProfile | null
 	login: (params: AuthParams) => Promise<void>
 	logout: () => Promise<void>
 }
@@ -37,22 +39,18 @@ export function useAuth(): AuthContextValue {
 	return ctx
 }
 
-function getUserFromToken(): User | null {
-	const token = getAccessToken()
-	if (!token) return null
-	const payload = decodeJwtPayload(token)
-	if (!payload) return null
-	return {
-		username:
-			(payload.username as string) ?? (payload.sub as string) ?? "",
-		email: (payload.email as string) ?? "",
+async function loadProfile(): Promise<UserProfile | null> {
+	try {
+		return await fetchProfile()
+	} catch {
+		return null
 	}
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 	const [isAuthReady, setIsAuthReady] = useState(false)
 	const [isAuthenticated, setIsAuthenticated] = useState(false)
-	const [user, setUser] = useState<User | null>(null)
+	const [user, setUser] = useState<UserProfile | null>(null)
 	const didBootstrap = useRef(false)
 
 	useEffect(() => {
@@ -77,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			const ok = await refreshAccessToken()
 			if (ok) {
 				setIsAuthenticated(true)
-				setUser(getUserFromToken())
+				setUser(await loadProfile())
 			}
 			setIsAuthReady(true)
 		}
@@ -88,7 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		const bundle = await apiLogin(params)
 		applyTokenBundle(bundle)
 		setIsAuthenticated(true)
-		setUser(getUserFromToken())
+		setUser(await loadProfile())
 	}, [])
 
 	const handleLogout = useCallback(async () => {

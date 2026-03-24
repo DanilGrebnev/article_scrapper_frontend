@@ -22,7 +22,14 @@ export interface TokenBundle {
 	expires_in: number
 }
 
-export interface User {
+export interface UserProfile {
+	id: number
+	name: string
+	last_name: string
 	username: string
-	email: string
+	status: string
+	balance: number
+	datetime: string
 }
+
+export type User = UserProfile

@@ -22,6 +22,13 @@ export function UserMenu({ user }: UserMenuProps) {
 		<Link to="/profile" className={styles.link}>
 			<div className={styles.info}>
 				<span className={styles.nickname}>{user.username}</span>
+				<span className={styles.balance}>
+					{user.balance.toLocaleString("ru-RU", {
+						minimumFractionDigits: 0,
+						maximumFractionDigits: 2,
+					})}{" "}
+					₽
+				</span>
 			</div>
 		</Link>
 	)

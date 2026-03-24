@@ -7,4 +7,5 @@ export type {
 	RegisterFormValues,
 	TokenBundle,
 	User,
+	UserProfile,
 } from "./model/types"
