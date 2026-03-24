@@ -15,7 +15,7 @@ export function ComparisonRulesTable({ rules }: ComparisonRulesTableProps) {
 		<div className={styles.wrapper}>
 			<Disclosure>
 				<Disclosure.Heading>
-					<Disclosure.Trigger>
+					<Disclosure.Trigger className={styles.triggerRow}>
 						<span className={styles.trigger}>
 							Правила сравнения ({rules.length})
 						</span>

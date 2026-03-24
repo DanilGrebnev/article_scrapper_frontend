@@ -1,3 +1,9 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
 .row {
 	display: flex;
 	gap: 16px;
@@ -5,4 +11,10 @@
 	> * {
 		flex: 1;
 	}
+}
+
+.error {
+	margin: 0;
+	font-size: 0.8rem;
+	color: #e53935;
 }

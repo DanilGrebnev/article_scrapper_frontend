@@ -2,6 +2,8 @@ import { ArticleCard } from "./ArticleCard/ArticleCard"
 import { MatchSectionHeader } from "./MatchSectionHeader/MatchSectionHeader"
 import { RenderArticleList } from "./RenderArticleList/RenderArticleList"
 import { SearchParamsDisplay } from "./SearchParamsDisplay/SearchParamsDisplay"
+import { ArticleFilterInput } from "./ArticleFilterInput/ArticleFilterInput"
+import { useArticleFilter } from "../../model/hooks/useArticleFilter"
 import type { SearchParams, SearchResponse } from "../../model/types"
 import styles from "./RequestDetail.module.scss"
 
@@ -37,12 +39,15 @@ interface RequestDetailProps {
  * (высокое, среднее, низкое) и карточки статей в каждом блоке.
  */
 export function RequestDetail({ response, variables }: RequestDetailProps) {
+	const { query, setQuery, filtered } = useArticleFilter(response)
+
 	return (
-		<>
+		<div className={styles.wrapper}>
 			{variables && <SearchParamsDisplay data={variables} />}
+			<ArticleFilterInput value={query} onChange={setQuery} />
 			<div className={styles.sections}>
 				{MATCH_SECTIONS.map(({ key, label, color, bg }) => {
-					const articles = response[key] ?? []
+					const articles = filtered[key] ?? []
 
 					return (
 						<div key={key}>
@@ -60,6 +65,6 @@ export function RequestDetail({ response, variables }: RequestDetailProps) {
 					)
 				})}
 			</div>
-		</>
+		</div>
 	)
 }

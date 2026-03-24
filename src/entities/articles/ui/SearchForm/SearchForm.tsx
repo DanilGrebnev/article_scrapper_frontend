@@ -1,16 +1,10 @@
 import { Controller, useForm } from "react-hook-form"
-import {
-	Button,
-	Checkbox,
-	Input,
-	Label,
-	ListBox,
-	Select,
-	Spinner,
-	TextArea,
-	TextField,
-} from "@heroui/react"
+import { Button, Spinner } from "@heroui/react"
 import { DateRangeFields } from "./DateRangeFields/DateRangeFields"
+import { SelectField } from "@/shared/ui/SelectField"
+import { CheckboxField } from "@/shared/ui/CheckboxField"
+import { InputField } from "@/shared/ui/InputField"
+import { TextAreaField } from "@/shared/ui/TextAreaField"
 
 import { Search } from "lucide-react"
 import type {
@@ -19,7 +13,13 @@ import type {
 } from "@/entities/articles/model/types"
 import styles from "./SearchForm.module.scss"
 
-const LANGUAGES = ["russian", "english", "deutsch", "french", "spanish"]
+const LANGUAGE_OPTIONS = [
+	{ value: "russian", label: "russian" },
+	{ value: "english", label: "english" },
+	{ value: "deutsch", label: "deutsch" },
+	{ value: "french", label: "french" },
+	{ value: "spanish", label: "spanish" },
+]
 
 const DISCIPLINE_OPTIONS: { value: SearchDiscipline; label: string }[] = [
 	{ value: "Metallurgy", label: "Металлургия" },
@@ -32,7 +32,8 @@ interface SearchFormProps {
 }
 
 export function SearchForm({ onSearch, isPending }: SearchFormProps) {
-	const { register, handleSubmit, control } = useForm<SearchParams>({
+	const { register, handleSubmit, control, trigger, getValues } = useForm<SearchParams>({
+		mode: "onChange",
 		defaultValues: {
 			target_theme: "",
 			field_knowledge: "",
@@ -56,85 +57,43 @@ export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 							name="discipline"
 							control={control}
 							render={({ field }) => (
-								<Select
+								<SelectField
+									label="Направление"
+									options={DISCIPLINE_OPTIONS}
 									value={field.value}
-									onChange={(val) => {
-										if (val) field.onChange(val)
-									}}
-								>
-									<Label>Направление</Label>
-									<Select.Trigger>
-										<Select.Value />
-										<Select.Indicator />
-									</Select.Trigger>
-									<Select.Popover>
-										<ListBox>
-											{DISCIPLINE_OPTIONS.map(
-												({ value, label }) => (
-													<ListBox.Item
-														key={value}
-														id={value}
-													>
-														{label}
-													</ListBox.Item>
-												),
-											)}
-										</ListBox>
-									</Select.Popover>
-								</Select>
+									onChange={field.onChange}
+									onBlur={field.onBlur}
+								/>
 							)}
 						/>
-						<TextField>
-							<Label>Целевая тема</Label>
-							<Input
-								placeholder="Тема по которой нужно искать"
-								{...register("target_theme")}
-							/>
-						</TextField>
-						<TextField>
-							<Label>Раскрытие темы</Label>
-							<TextArea
-								placeholder="Раскрытие темы"
-								rows={2}
-								{...register("field_knowledge")}
-							/>
-						</TextField>
-						<TextField>
-							<Label>Ключевые фразы и слова</Label>
-							<TextArea
-								placeholder="Ключевые слова и фразы помогающие лучше понять тему"
-								rows={2}
-								{...register("target_context")}
-							/>
-						</TextField>
+						<InputField
+							label="Целевая тема"
+							placeholder="Тема по которой нужно искать"
+							{...register("target_theme")}
+						/>
+						<TextAreaField
+							label="Раскрытие темы"
+							placeholder="Раскрытие темы"
+							rows={2}
+							{...register("field_knowledge")}
+						/>
+						<TextAreaField
+							label="Ключевые фразы и слова"
+							placeholder="Ключевые слова и фразы помогающие лучше понять тему"
+							rows={2}
+							{...register("target_context")}
+						/>
 						<Controller
 							name="language"
 							control={control}
 							render={({ field }) => (
-								<Select
+								<SelectField
+									label="Language"
+									options={LANGUAGE_OPTIONS}
 									value={field.value}
-									onChange={(val) => {
-										if (val) field.onChange(val)
-									}}
-								>
-									<Label>Language</Label>
-									<Select.Trigger>
-										<Select.Value />
-										<Select.Indicator />
-									</Select.Trigger>
-									<Select.Popover>
-										<ListBox>
-											{LANGUAGES.map((lang) => (
-												<ListBox.Item
-													key={lang}
-													id={lang}
-												>
-													{lang}
-												</ListBox.Item>
-											))}
-										</ListBox>
-									</Select.Popover>
-								</Select>
+									onChange={field.onChange}
+									onBlur={field.onBlur}
+								/>
 							)}
 						/>
 					</div>
@@ -145,28 +104,18 @@ export function SearchForm({ onSearch, isPending }: SearchFormProps) {
 						Параметры поиска статей
 					</p>
 					<div className={styles.fields}>
-						<TextField>
-							<Label>Theme</Label>
-							<Input {...register("theme")} />
-						</TextField>
-						<DateRangeFields register={register} />
+						<InputField label="Theme" {...register("theme")} />
+						<DateRangeFields control={control} trigger={trigger} getValues={getValues} />
 						<Controller
 							name="openAccess"
 							control={control}
 							render={({ field }) => (
-								<Checkbox
+								<CheckboxField
+									label="Open access"
 									isSelected={field.value ?? false}
-									onChange={(isChecked) =>
-										field.onChange(isChecked)
-									}
-								>
-									<Checkbox.Control>
-										<Checkbox.Indicator />
-									</Checkbox.Control>
-									<Checkbox.Content>
-										<Label>Open access</Label>
-									</Checkbox.Content>
-								</Checkbox>
+									onChange={field.onChange}
+									onBlur={field.onBlur}
+								/>
 							)}
 						/>
 					</div>
