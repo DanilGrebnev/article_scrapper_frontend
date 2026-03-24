@@ -1,19 +1,35 @@
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthForm } from "@/entities/user"
 import type { AuthParams } from "@/entities/user"
+import { useAuth } from "@/app/auth/AuthProvider"
 import styles from "./AuthPage.module.scss"
 
 export function AuthPage() {
 	const navigate = useNavigate()
+	const { login } = useAuth()
+	const [isPending, setIsPending] = useState(false)
+	const [error, setError] = useState<string | null>(null)
 
-	const handleAuth = (params: AuthParams) => {
-		console.log("auth", params)
-		navigate("/")
+	const handleAuth = async (params: AuthParams) => {
+		setError(null)
+		setIsPending(true)
+		try {
+			await login(params)
+			navigate("/", { replace: true })
+		} catch {
+			setError("Неверный логин или пароль")
+		} finally {
+			setIsPending(false)
+		}
 	}
 
 	return (
 		<div className={styles.page}>
-			<AuthForm onSubmit={handleAuth} />
+			{error && (
+				<p className={styles.error}>{error}</p>
+			)}
+			<AuthForm onSubmit={handleAuth} isPending={isPending} />
 			<p className={styles.footer}>
 				Нет аккаунта?{" "}
 				<a

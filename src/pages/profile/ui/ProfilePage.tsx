@@ -1,14 +1,10 @@
-import { Avatar } from "@heroui/react"
+import { Avatar, Button } from "@heroui/react"
+import { useAuth } from "@/app/auth/AuthProvider"
 import styles from "./ProfilePage.module.scss"
 
-const MOCK_USER = {
-	nickname: "TestUser",
-	email: "testuser@example.com",
-	balance: 1500,
-}
-
 export function ProfilePage() {
-	const initials = MOCK_USER.nickname.slice(0, 2).toUpperCase()
+	const { user, logout } = useAuth()
+	const initials = (user?.username ?? "??").slice(0, 2).toUpperCase()
 
 	return (
 		<div className={styles.page}>
@@ -17,17 +13,13 @@ export function ProfilePage() {
 					<Avatar.Fallback>{initials}</Avatar.Fallback>
 				</Avatar>
 				<div>
-					<p className={styles.name}>{MOCK_USER.nickname}</p>
-					<p className={styles.email}>{MOCK_USER.email}</p>
+					<p className={styles.name}>{user?.username}</p>
+					<p className={styles.email}>{user?.email}</p>
 				</div>
 			</div>
-
-			<div className={styles.card}>
-				<p className={styles.cardTitle}>Баланс</p>
-				<p className={styles.cardValue}>
-					{MOCK_USER.balance.toLocaleString("ru-RU")} ₽
-				</p>
-			</div>
+			<Button variant="outline" onPress={() => logout()}>
+				Выйти
+			</Button>
 		</div>
 	)
 }

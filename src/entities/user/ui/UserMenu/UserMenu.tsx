@@ -3,23 +3,17 @@ import { Link } from "react-router-dom"
 import type { User } from "../../model/types"
 import styles from "./UserMenu.module.scss"
 
-const MOCK_USER: User = {
-	nickname: "TestUser",
-	balance: 1500,
-}
-
 interface UserMenuProps {
 	user?: User | null
 }
 
-/**
- * Показывает ник и баланс пользователя, либо кнопку входа если не авторизован.
- */
-export function UserMenu({ user = MOCK_USER }: UserMenuProps) {
+export function UserMenu({ user }: UserMenuProps) {
 	if (!user) {
 		return (
 			<Link to="/login">
-				<Button size="sm" variant="outline">Войти</Button>
+				<Button size="sm" variant="outline">
+					Войти
+				</Button>
 			</Link>
 		)
 	}
@@ -27,10 +21,7 @@ export function UserMenu({ user = MOCK_USER }: UserMenuProps) {
 	return (
 		<Link to="/profile" className={styles.link}>
 			<div className={styles.info}>
-				<span className={styles.balance}>
-					{user.balance.toLocaleString("ru-RU")} ₽
-				</span>
-				<span className={styles.nickname}>{user.nickname}</span>
+				<span className={styles.nickname}>{user.username}</span>
 			</div>
 		</Link>
 	)

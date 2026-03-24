@@ -1,6 +1,6 @@
 import type { SearchParams } from "@/entities/articles/model/types"
-import { apiClient } from "./client"
+import { apiClientSecure } from "./client-secure"
 
 export const searchArticles = (params: SearchParams): Promise<unknown> => {
-	return apiClient.post("article-search", { json: params }).json()
+	return apiClientSecure.post("article-search", { json: params }).json()
 }

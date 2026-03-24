@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import {
 	Button,
@@ -7,7 +8,7 @@ import {
 	Spinner,
 	TextField,
 } from "@heroui/react"
-import type { RegisterParams } from "../../model/types"
+import type { RegisterParams, RegisterFormValues } from "../../model/types"
 import styles from "./RegisterForm.module.scss"
 
 interface RegisterFormProps {
@@ -15,27 +16,53 @@ interface RegisterFormProps {
 	isPending?: boolean
 }
 
-/**
- * Форма регистрации: email, пароль и подтверждение пароля.
- */
 export function RegisterForm({ onSubmit, isPending }: RegisterFormProps) {
 	const {
 		register,
 		handleSubmit,
 		watch,
-		formState: { errors },
-	} = useForm<RegisterParams>({
+		trigger,
+		formState: { errors, dirtyFields },
+	} = useForm<RegisterFormValues>({
+		mode: "onChange",
 		defaultValues: {
+			name: "",
+			last_name: "",
+			username: "",
 			email: "",
 			password: "",
 			confirmPassword: "",
 		},
 	})
 
+	const password = watch("password")
+
+	useEffect(() => {
+		if (dirtyFields.confirmPassword) {
+			trigger("confirmPassword")
+		}
+	}, [password, trigger, dirtyFields.confirmPassword])
+
+	const submitHandler = ({ confirmPassword: _, ...params }: RegisterFormValues) => {
+		onSubmit(params)
+	}
+
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} noValidate>
+		<form onSubmit={handleSubmit(submitHandler)} noValidate>
 			<h1 className={styles.title}>Регистрация</h1>
 			<div className={styles.fields}>
+				<TextField isRequired>
+					<Label>Имя</Label>
+					<Input {...register("name", { required: true })} />
+				</TextField>
+				<TextField isRequired>
+					<Label>Фамилия</Label>
+					<Input {...register("last_name", { required: true })} />
+				</TextField>
+				<TextField isRequired>
+					<Label>Имя пользователя</Label>
+					<Input {...register("username", { required: true })} />
+				</TextField>
 				<TextField isRequired>
 					<Label>Email</Label>
 					<Input

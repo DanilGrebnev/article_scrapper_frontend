@@ -8,13 +8,10 @@ interface AuthFormProps {
 	isPending?: boolean
 }
 
-/**
- * Форма авторизации: email и пароль.
- */
 export function AuthForm({ onSubmit, isPending }: AuthFormProps) {
 	const { register, handleSubmit } = useForm<AuthParams>({
 		defaultValues: {
-			email: "",
+			login: "",
 			password: "",
 		},
 	})
@@ -24,10 +21,10 @@ export function AuthForm({ onSubmit, isPending }: AuthFormProps) {
 			<h1 className={styles.title}>Авторизация</h1>
 			<div className={styles.fields}>
 				<TextField isRequired>
-					<Label>Email</Label>
+					<Label>Email или имя пользователя</Label>
 					<Input
-						type="email"
-						{...register("email", { required: true })}
+						type="text"
+						{...register("login", { required: true })}
 					/>
 				</TextField>
 				<TextField isRequired>
