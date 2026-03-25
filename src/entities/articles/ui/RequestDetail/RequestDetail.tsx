@@ -1,11 +1,10 @@
-import { ArticleCard } from "./ArticleCard/ArticleCard"
 import { MatchSectionHeader } from "./MatchSectionHeader/MatchSectionHeader"
 import { RenderArticleList } from "./RenderArticleList/RenderArticleList"
 import { SearchParamsDisplay } from "@/shared/ui/SearchParamsDisplay"
 import { ArticleFilterInput } from "./ArticleFilterInput/ArticleFilterInput"
 import { useArticleFilter } from "../../model/hooks/useArticleFilter"
 import { SEARCH_PARAM_LABELS, SEARCH_PARAM_ORDER } from "../../lib/searchParamLabels"
-import type { SearchResponse } from "../../model/types"
+import type { TArticleHistoryDetail } from "../../model/types"
 import styles from "./RequestDetail.module.scss"
 
 const MATCH_SECTIONS = [
@@ -30,7 +29,7 @@ const MATCH_SECTIONS = [
 ]
 
 interface RequestDetailProps {
-	response: SearchResponse
+	response: TArticleHistoryDetail
 }
 
 /**
@@ -66,9 +65,7 @@ export function RequestDetail({ response }: RequestDetailProps) {
 								count={articles.length}
 							/>
 
-							<RenderArticleList articles={articles}>
-								{(article) => <ArticleCard article={article} />}
-							</RenderArticleList>
+							<RenderArticleList articles={articles} />
 						</div>
 					)
 				})}

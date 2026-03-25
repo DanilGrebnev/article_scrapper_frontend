@@ -1,9 +1,9 @@
 import { Disclosure } from "@heroui/react"
-import type { ComparisonRule } from "../../../../model/types"
+import type { TComparisonRule } from "../../../../model/types"
 import styles from "./ComparisonRulesTable.module.scss"
 
 interface ComparisonRulesTableProps {
-	rules: ComparisonRule[]
+	rules: TComparisonRule[]
 }
 
 /**

@@ -1,11 +1,11 @@
 import { Card, Link } from "@heroui/react"
-import type { MatchedArticle } from "../../../model/types"
+import type { TArticle } from "../../../model/types"
 import { ArticleExplanation } from "./ArticleExplanation/ArticleExplanation"
 import { ComparisonRulesTable } from "./ComparisonRulesTable/ComparisonRulesTable"
 import styles from "./ArticleCard.module.scss"
 
 interface ArticleCardProps {
-	article: MatchedArticle
+	article: TArticle
 }
 
 /**
@@ -13,6 +13,9 @@ interface ArticleCardProps {
  * пояснение и раскрываемая таблица правил сравнения.
  */
 export function ArticleCard({ article }: ArticleCardProps) {
+	
+	const original = article.original
+
 	return (
 		<Card>
 			<div style={{ padding: 16 }}>
@@ -20,13 +23,13 @@ export function ArticleCard({ article }: ArticleCardProps) {
 				<p className={styles.title}>{article.t_title}</p>
 				<p className={styles.abstract}>{article.t_abstract}</p>
 
-				{article.authors && (
-					<p className={styles.authors}>{article.authors}</p>
+				{original && (
+					<p className={styles.authors}>{original.authors}</p>
 				)}
 
-				{article.link && (
+				{original.link && (
 					<Link
-						href={article.link}
+						href={original.link}
 						target="_blank"
 						rel="noopener noreferrer"
 						className={styles.link}
@@ -35,6 +38,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
 						<Link.Icon />
 					</Link>
 				)}
+
 
 				{article.explanation && (
 					<ArticleExplanation explanation={article.explanation} />

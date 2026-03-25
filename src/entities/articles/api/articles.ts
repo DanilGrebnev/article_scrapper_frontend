@@ -4,7 +4,7 @@ import { getJobId, setJobId, clearJobId } from "../lib/jobIdStore"
 import { startArticleSearch, checkSearchStatus } from "./articleSearchService"
 import type {
 	SearchParams,
-	SearchResponse,
+	TArticleHistoryDetail,
 	CheckSearchResponse,
 } from "../model/types"
 
@@ -168,7 +168,7 @@ export function useBootstrapSearch(poll: (id: string) => void) {
 export function useArticleSearchResult() {
 	const queryClient = useQueryClient()
 	return (
-		queryClient.getQueryData<SearchResponse>(ARTICLE_SEARCH_RESULT_KEY) ??
+		queryClient.getQueryData<TArticleHistoryDetail>(ARTICLE_SEARCH_RESULT_KEY) ??
 		null
 	)
 }

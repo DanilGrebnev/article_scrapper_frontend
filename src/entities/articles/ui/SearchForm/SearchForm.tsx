@@ -44,7 +44,7 @@ export function SearchForm({
 				target_theme: "Легирование чугунных отливок в литейной форме",
 				field_knowledge: "Metallurgy",
 				target_context:
-					"Поверхностное легирование чугунных отливок в литейной форме; Создание поверхностных слоёв на отливке при литье чугуна в форму",
+					"",
 				language: "russian",
 				theme: "surface alloying of iron castings in a mold",
 				dateFrom: 2024,

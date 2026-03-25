@@ -1,6 +1,6 @@
-import { Input, TextField } from "@heroui/react"
+// import { Input, TextField } from "@heroui/react"
 import { Search } from "lucide-react"
-import styles from "./ArticleFilterInput.module.scss"
+import {InputField } from '@/shared/ui/InputField'
 
 interface ArticleFilterInputProps {
 	value: string
@@ -9,15 +9,12 @@ interface ArticleFilterInputProps {
 
 export function ArticleFilterInput({ value, onChange }: ArticleFilterInputProps) {
 	return (
-		<div className={styles.wrapper}>
-			<TextField>
-				<Input
-					placeholder="Поиск по заголовку, аннотации, авторам..."
-					value={value}
-					onChange={(e) => onChange(e.target.value)}
-					startContent={<Search size={16} className={styles.icon} />}
-				/>
-			</TextField>
-		</div>
+		<InputField
+			placeholder="Поиск по заголовку, аннотации, авторам..."
+			value={value}
+			onChange={(e) => onChange(e.target.value)}
+			fullWidth
+			variant="secondary"
+		/>
 	)
 }

@@ -7,7 +7,7 @@ interface HistoryRequestItemProps {
 	onPress: () => void
 }
 
-export function HistoryRequestItem({ item, onPress }: HistoryRequestItemProps) {
+export function HistoryItem({ item, onPress }: HistoryRequestItemProps) {
 	const { target_theme, field_knowledge, dateFrom, dateTo, amount_articles } =
 		item
 
@@ -24,13 +24,13 @@ export function HistoryRequestItem({ item, onPress }: HistoryRequestItemProps) {
 				</span>
 
 				<div className={styles.counts}>
-					<Chip size="sm" variant="flat" color="success">
+					<Chip size="sm" variant="primary" color="success">
 						{amount_articles.high_match}
 					</Chip>
-					<Chip size="sm" variant="flat" color="warning">
+					<Chip size="sm" variant="primary" color="warning">
 						{amount_articles.medium_match}
 					</Chip>
-					<Chip size="sm" variant="flat" color="danger">
+					<Chip size="sm" variant="primary" color="danger">
 						{amount_articles.low_match}
 					</Chip>
 				</div>
@@ -38,3 +38,4 @@ export function HistoryRequestItem({ item, onPress }: HistoryRequestItemProps) {
 		</button>
 	)
 }
+

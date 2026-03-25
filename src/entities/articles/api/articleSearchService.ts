@@ -1,7 +1,7 @@
 import { apiClientSecure } from "@/shared/api/client-secure"
 import type {
 	SearchParams,
-	SearchResponse,
+	TArticleHistoryDetail,
 	ArticleSearchStartResponse,
 	CheckSearchResponse,
 } from "../model/types"
@@ -65,7 +65,7 @@ export interface CheckSearchStatusOptions {
 export async function checkSearchStatus(
 	id: string,
 	options?: CheckSearchStatusOptions,
-): Promise<SearchResponse> {
+): Promise<TArticleHistoryDetail> {
 	const interval = options?.intervalMs ?? POLL_INTERVAL_MS
 	const signal = options?.signal
 

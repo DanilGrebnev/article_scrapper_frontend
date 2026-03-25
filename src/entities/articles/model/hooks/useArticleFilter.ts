@@ -1,23 +1,23 @@
 import { useMemo, useState } from "react"
-import type { MatchedArticle, SearchResponse } from "../types"
+import type { TArticle, TArticleHistoryDetail } from "../types"
 
-function matchesQuery(article: MatchedArticle, query: string): boolean {
+function matchesQuery(article: TArticle, query: string): boolean {
 	const q = query.toLowerCase()
 	return (
 		article.t_title?.toLowerCase().includes(q) ||
 		article.t_abstract?.toLowerCase().includes(q) ||
-		article.authors?.toLowerCase().includes(q) ||
+		article.original.authors?.toLowerCase().includes(q) ||
 		false
 	)
 }
 
-export function useArticleFilter(response: SearchResponse) {
+export function useArticleFilter(response: TArticleHistoryDetail) {
 	const [query, setQuery] = useState("")
 
 	const filtered = useMemo(() => {
 		if (!query.trim()) return response
 
-		const filter = (articles: MatchedArticle[]) =>
+		const filter = (articles: TArticle[]) =>
 			articles.filter((a) => matchesQuery(a, query))
 
 		return {

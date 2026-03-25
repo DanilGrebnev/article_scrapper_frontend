@@ -1,14 +1,14 @@
-import { type ReactNode } from "react"
-import type { MatchedArticle } from "../../../model/types"
+import type { TArticleList } from "../../../model/types"
+import { ArticleCard } from "../ArticleCard/ArticleCard"
 import styles from "./RenderArticleList.module.scss"
 
 interface RenderArticleListProps {
-	articles: MatchedArticle[]
-	children: (article: MatchedArticle) => ReactNode
+	articles: TArticleList
 }
 
-export function RenderArticleList({ articles, children }: RenderArticleListProps) {
-	if (articles.length === 0) {
+/**Рендер списка статей */
+export function RenderArticleList({ articles }: RenderArticleListProps) {
+	if (!articles.length) {
 		return <p className={styles.empty}>Нет результатов</p>
 	}
 
@@ -16,7 +16,7 @@ export function RenderArticleList({ articles, children }: RenderArticleListProps
 		<div className={styles.list}>
 			{articles.map((article) => (
 				<div key={article.id} className={styles.item}>
-					{children(article)}
+					<ArticleCard article={article} /> 
 				</div>
 			))}
 		</div>

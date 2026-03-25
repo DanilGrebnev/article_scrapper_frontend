@@ -9,17 +9,30 @@ export interface SearchParams {
 	openAccess?: boolean
 }
 
-export interface ComparisonRule {
+export interface TComparisonRule {
 	rule: string
 	description: string
 }
 
-export interface MatchedArticle {
+type TArticleOriginal = {
+	abstract: string
+	authors: string
+	description: string
+	is_access: boolean
+	link: string
+	publications_type: string
+	publish_link: string
+	publish_name: string
+	published: string
+	title:string
+}
+
+export interface TArticle {
 	id: string
 	t_title: string
 	t_abstract: string
 	explanation: string
-	comparison_of_rules: ComparisonRule[]
+	comparison_of_rules: TComparisonRule[]
 	title: string
 	link?: string
 	description?: string
@@ -28,12 +41,16 @@ export interface MatchedArticle {
 	published?: string
 	publications_type?: string
 	openAccess?: boolean
+	original: TArticleOriginal
+
 }
 
-export interface SearchResponse {
-	high_match: MatchedArticle[]
-	medium_match: MatchedArticle[]
-	low_match: MatchedArticle[]
+export type TArticleList = TArticle[] 
+
+export interface TArticleHistoryDetail {
+	high_match: TArticleList
+	medium_match: TArticleList
+	low_match: TArticleList
 	filters: SearchParams
 }
 
@@ -60,4 +77,4 @@ export interface HistoryListItem {
 export type CheckSearchResponse =
 	| { status: "process"; message: string }
 	| { status: "error"; message: string }
-	| { status: "success"; result: SearchResponse }
+	| { status: "success"; result: TArticleHistoryDetail }

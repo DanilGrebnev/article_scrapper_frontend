@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import {
-	HistoryRequestItem,
+	HistoryItem,
 	HistoryRequestItemSkeleton,
 	useHistoryList,
 } from "@/entities/articles"
@@ -39,7 +39,7 @@ export function HistoryPage() {
 			{data && data.length > 0 && (
 				<div className={styles.list}>
 					{data.map((item) => (
-						<HistoryRequestItem
+						<HistoryItem
 							key={item.id}
 							item={item}
 							onPress={() =>
