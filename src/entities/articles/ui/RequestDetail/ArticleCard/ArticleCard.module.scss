@@ -26,3 +26,29 @@
 	margin-top: 8px;
 	font-size: 0.875rem;
 }
+
+.citationBlock {
+	margin-top: 10px;
+	padding: 10px;
+	border-radius: 8px;
+	background-color: #f8f9fb;
+	border: 1px solid #eceff3;
+}
+
+.citationLabel {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: #4f5b67;
+	margin: 0 0 4px;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.citation {
+	margin: 0;
+	font-size: 0.875rem;
+	line-height: 1.45;
+	color: #1f2933;
+	white-space: pre-wrap;
+	word-break: break-word;
+}

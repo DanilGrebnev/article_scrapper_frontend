@@ -17,6 +17,7 @@ export interface TComparisonRule {
 type TArticleOriginal = {
 	abstract: string
 	authors: string
+	citation: string
 	description: string
 	is_access: boolean
 	link: string
@@ -24,7 +25,7 @@ type TArticleOriginal = {
 	publish_link: string
 	publish_name: string
 	published: string
-	title:string
+	title: string
 }
 
 export interface TArticle {
@@ -42,10 +43,9 @@ export interface TArticle {
 	publications_type?: string
 	openAccess?: boolean
 	original: TArticleOriginal
-
 }
 
-export type TArticleList = TArticle[] 
+export type TArticleList = TArticle[]
 
 export interface TArticleHistoryDetail {
 	high_match: TArticleList

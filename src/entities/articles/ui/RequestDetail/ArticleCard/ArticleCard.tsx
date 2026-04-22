@@ -15,6 +15,7 @@ interface ArticleCardProps {
 export function ArticleCard({ article }: ArticleCardProps) {
 	
 	const original = article.original
+	const citation = original?.citation?.trim()
 
 	return (
 		<Card>
@@ -37,6 +38,13 @@ export function ArticleCard({ article }: ArticleCardProps) {
 						Оригинал статьи
 						<Link.Icon />
 					</Link>
+				)}
+
+				{citation && (
+					<div className={styles.citationBlock}>
+						<p className={styles.citationLabel}>Цитирование</p>
+						<p className={styles.citation}>{citation}</p>
+					</div>
 				)}
 
 
