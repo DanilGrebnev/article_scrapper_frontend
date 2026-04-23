@@ -15,6 +15,7 @@ const POLL_INTERVAL_MS = 3000
 export function startArticleSearch(
 	params: SearchParams,
 ): Promise<ArticleSearchStartResponse> {
+	console.log({params})
 	return apiClientSecure
 		.post("article-search", { json: params })
 		.json<ArticleSearchStartResponse>()

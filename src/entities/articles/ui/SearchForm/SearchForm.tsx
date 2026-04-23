@@ -1,4 +1,5 @@
 import { Controller, useForm } from "react-hook-form"
+import { useMemo } from "react"
 import { Button, Spinner } from "@heroui/react"
 import { DateRangeFields } from "./DateRangeFields/DateRangeFields"
 import { SelectField } from "@/shared/ui/SelectField"
@@ -10,6 +11,10 @@ import { Search } from "lucide-react"
 import type { SearchParams } from "@/entities/articles/model/types"
 import type { PollStatusData } from "@/entities/articles/api/articles"
 import { SEARCH_PARAM_LABELS } from "../../lib/searchParamLabels"
+import {
+	loadLastSearchParams,
+	saveLastSearchParams,
+} from "../../lib/lastSearchParamsStore"
 import styles from "./SearchForm.module.scss"
 
 const LANGUAGE_OPTIONS = [
@@ -25,6 +30,17 @@ const FIELD_KNOWLEDGE_OPTIONS = [
 	{ value: "Economics", label: "Экономика" },
 ]
 
+const DEFAULT_VALUES: SearchParams = {
+	target_theme: "Легирование чугунных отливок в литейной форме",
+	field_knowledge: "Metallurgy",
+	target_context: "",
+	language: "russian",
+	theme: "surface alloying of iron castings in a mold",
+	dateFrom: 2024,
+	dateTo: 2025,
+	openAccess: true,
+}
+
 interface SearchFormProps {
 	onSearch: (params: SearchParams) => void
 	isPending: boolean
@@ -36,29 +52,21 @@ export function SearchForm({
 	isPending,
 	pollStatus,
 }: SearchFormProps) {
-	const { handleSubmit, control, trigger, getValues } = useForm<SearchParams>(
-		{
-			mode: "onChange",
-			// TODO: убрать мок-данные
-			defaultValues: {
-				target_theme: "Легирование чугунных отливок в литейной форме",
-				field_knowledge: "Metallurgy",
-				target_context:
-					"",
-				language: "russian",
-				theme: "surface alloying of iron castings in a mold",
-				dateFrom: 2024,
-				dateTo: 2025,
-				openAccess: true,
-			},
+	const savedValues = useMemo(() => loadLastSearchParams(), [])
+
+	const { handleSubmit, control, trigger, getValues } = useForm<SearchParams>({
+		mode: "onChange",
+		defaultValues: {
+			...DEFAULT_VALUES,
+			...savedValues,
 		},
-	)
+	})
 
 	return (
 		<form
 			onSubmit={handleSubmit((data) => {
+				saveLastSearchParams(data)
 				onSearch(data)
-				console.log(data)
 			})}
 			noValidate
 		>
